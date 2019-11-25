@@ -78,6 +78,11 @@ That's very important both for you and this project, so please do so if you're i
 even specific files devoted to documentation.
 - **Bug reporting**. One other way to help is to test the compiler for edge cases that it might not handle and report them to us
 by opening an issue.
+- **Help in the separation of effort**. This is an educational project and one that tries to be quite friendly to
+newcomers. As such, it's beneficial to the community to separate the work in small chunks rather than big projects.
+In that way, one can pick a small piece to work on, preferably one that is not connected with many parts of the whole
+project. If you have an idea about a small piece of work, please submit an issue. Especially if it is easy to newcomers
+(i.e. good first issue).
 
 2) You want to learn about compilers. In that case, this project is not intended to replace the imporant theory of textbooks
 and courses. However, it can provide a very good practical experience. So, you can try to start with this project or a textbook
