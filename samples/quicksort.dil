@@ -1,0 +1,96 @@
+// Quicksort in DIL
+
+// Function syntax:
+/*
+Start with `func`.
+Follow with the name.
+Then, in parens, we have one or more parameter declarations
+separated by comma.
+A parameter declaration can declare one or more parameters
+separated by comma and in the end it is followed by ":" and
+the return type. Essentially, with parameter declaration,
+instead of using the usual scheme of (name, type) pairs
+for each parameter (e.g. `(int i, int j, int k)`), we
+can group parameters of the same type (e.g. (i, j, k: int)).
+After the closing paren, optionally follows ":" and then the
+return type of the function, if it returns something.
+
+Example:
+
+The name  Parameter      Parameter
+of the    declaration    declaration
+function  declaring      declaring
+is `test` only one       multiple (2)
+          parameter,     parameters,        
+          named `i`      `arr1`, `arr2`    The function
+          with type      with type         returns
+          `int`          int[]             an `int`
+      |   |              |                     |
+func test(i : int,       arr1, arr2 : int[]) : int {
+    ...
+}
+*/
+
+func swap(arr : int[], i, j : int) {
+    int temp;
+    temp = arr[i];
+    arr[i] = arr[j];
+    arr[j] = temp;
+}
+
+
+func partition(arr : int[], low, high : int) : int {
+    int pivot, i, j, temp;
+    pivot = arr[high];
+    i = low - 1;
+    
+    j = low;
+    while (j <= high - 1) {
+        if (arr[j] < pivot) {
+            i = i + 1;
+            swap(arr, i, j);
+        }
+        j = j + 1;
+    }
+    swap(arr, i + 1, high);
+    return (i + 1);
+}
+
+func quicksort_helper(arr : int[], low, high : int) {
+    int partition_index;
+    if (low < high) {
+        partition_index = partition(arr, low, high);
+
+        quicksort_helper(arr, low, pi - 1);
+        quicksort_helper(arr, pi + 1, high);
+    }
+}
+
+func quicksort(arr : int[], sz : int) {
+    quicksort_helper(arr, 0, sz - 1);
+
+    /*
+    Note: We may choose to save the length of
+    an array along with the data, so we could
+    say:
+        quicksort(arr, 0, arr.length - 1);
+    */
+    // Having that info, we can also do bounds-checking.
+}
+
+
+main() : int {
+    int len, i;
+    int[] arr;
+
+    len = 5;
+    // Allocating a new array of `sz` ints.
+    arr = new int[len];
+    arr[0] = 5;
+    arr[1] = 3;
+    arr[2] = 7;
+    arr[3] = 1;
+    arr[4] = 5;
+    
+    quicksort(arr, len);
+}
