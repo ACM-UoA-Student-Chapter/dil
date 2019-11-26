@@ -4,6 +4,10 @@ _Important note: This post is intended to provide useful info about the project 
 Realistically one can't do that without throwing novice programmers off.
 Hence, if there's something that you don't understand, just skip it. If by reading this post you still have questions, please post them on Slack. With that in mind, let's get started._
 
+## Community
+This is a community-maintained project, initiated by the Open Source action of the ACM Student Chapter of the University of Athens.
+The community is hosted in our Slack workspace, in the channel #open_source. You can use [this link](https://join.slack.com/t/uoastudentchapter/shared_invite/enQtODIwMzg5OTQyODAxLTMyMzI2NTE5OTRlYmU0Yzc5YWU3YmI3Yjc3ZTdiYWI1M2RjN2Y1ZDM0M2JkMTdjNDg5MGY1ZTBjOGIxNTdiOTk) to register in this workspace and then you can join the #open_source channel.
+
 ## Motivation
 In the Open Source Action, of the University of Athens ACM Student Chapter, we wanted
 a mock project to help people get involved in open source development in a project of our own.
