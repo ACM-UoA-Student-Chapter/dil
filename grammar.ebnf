@@ -1,0 +1,31 @@
+Module = { [FunctionDef], [StructDef] }, "EOF";
+
+
+FunctionDef = "func", Identifier, "(",  [FuncDefArgList], ")", "{",  { [Statement] }, "}";
+
+
+FuncDefArgList = IdentifierList, ":", Type, FuncDefArgListT;
+
+FuncDefArgListT = ",", IdentifierList, ":", Type, FuncDefArgListT
+                | ;
+
+
+IdentifierList = Identifier, IdentifierListT;
+
+IdentifierListT = ",", Identifier, IdentifierListT
+                | ;
+
+
+StructDef = "struct", Identifier, "{", { [VarDeclStmt] }, "}";
+
+
+VarDeclStmt = Type, Identifier, ";";
+
+
+Type = "int"
+     | "int", "[", "]"
+     | "bool"
+     | Identifier;
+
+
+Identifier = ? identifier_literal ?;
