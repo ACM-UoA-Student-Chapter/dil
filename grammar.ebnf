@@ -1,0 +1,42 @@
+Module = { Declaration }, ? EOI ?;
+
+
+Declaration = StructDecl | FunctionDef;
+
+
+FunctionDef = "func", Identifier, "(",  FuncDefParamList, ")", "{",  { Statement }, "}";
+
+
+FuncDefParamList = [ParamSet, { ",", ParamSet }];
+
+ParamSet = ParamIdentifierList, ":", Type;
+
+ParamIdentifierList = Identifier, { ",", Identifier };
+
+
+StructDecl = "struct", Identifier, "{", { StructField }, "}";
+
+
+StructField = Identifier, ":", Type, ";";
+
+
+Statement = "{", { Statement }, "}"
+          | "while", "(", Expression, ")", Statement
+          | LValue, "=", Expression, ";"
+          | Identifier, "[", Expression, "]", "=", Expression, ";"
+          | "if", "(", Expression, ")", Statement
+          | Identifier, "(", FuncCallArgList, ")", ";" 
+          | "return", [Expression], ";";
+      
+LValue = Identifier, [ ".", Identifier ];
+
+FuncCallArgList = [Expression, { ",", Expression }];
+
+
+Type = "int"
+     | "int", "[", "]"
+     | "bool"
+     | Identifier;
+
+
+Identifier = ? IDENTIFIER ?;
