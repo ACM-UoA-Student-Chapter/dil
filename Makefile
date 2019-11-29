@@ -29,7 +29,7 @@ $(TEST_DIR)/%.o: %.cpp
 
 $(TEST_BIN_DIR)/$(TEST_MAIN): $(TESTS)
 	@mkdir -p $(@D)
-	$(CXX) $(CXXFLAGS) $(INCLUDE) -o $(TEST_BIN_DIR)/$(TEST_MAIN) $(TESTS)
+	$(CXX) $(CXXFLAGS) $(INCLUDE) -o $(TEST_BIN_DIR)/$(TEST_MAIN) $(TESTS) $(OBJS)
 
 tests: $(TEST_BIN_DIR)/$(TEST_MAIN)
 
