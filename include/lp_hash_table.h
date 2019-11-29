@@ -1,0 +1,4 @@
+#ifndef DIL_LP_HASH_TABLE_H
+#define DIL_LP_HASH_TABLE_H
+
+#endif //DIL_LP_HASH_TABLE_H
