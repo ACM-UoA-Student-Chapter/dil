@@ -1,0 +1,53 @@
+module = { [functionDef] }, "EOF";
+
+functionDef = "func", identifier, "(",  [funcDefArgList], ")", "{",  { [statement] }, "}";
+
+
+funcDefArgList = identifierList, ":", Type, funcDefArgListT;
+
+funcDefArgListT = ",", identifierList, ":", Type, funcDefArgListT
+                | ;
+
+
+identifierList = identifier, identifierListT;
+
+identifierListT = ",", identifier, identifierListT
+                | ;
+
+
+statement = "{", { [statement] }, "}"
+          | type, identifier, ";"
+          | "while", "(", expr, ")", "{", { [statement] }, "}"
+          | lVal, "=", expr, ";"
+          | lVal, "[", expr, "]", "=", expr, ";"
+          | "if", "(", expr, ")", statement;
+
+
+lVal = identifier, lValT;
+
+lValT = ".", identifier, lValT
+      | ;
+
+
+expr = expr2, "+", expr2
+     | expr2, "-", expr2
+     | expr2, "*", expr2
+     | expr2, "/", expr2
+     | expr2, "[", expr2, "]"
+     | lVal, "(", [exprList], ")"
+     | "!", expr;
+
+
+exprList = expr, exprListT;
+
+exprListT = ",", expr;
+
+
+type = "int"
+     | "int", "[", "]" 
+     | "bool"
+     | identifier;
+
+
+identifier = ? identifier_literal ?;
+integer = ? integer_literal ?;
