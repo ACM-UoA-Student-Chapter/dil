@@ -1,0 +1,21 @@
+statement = "{", { [statement] }, "}"
+          | type, identifier, ";"
+          | "while", "(", expr, ")", "{", { [statement] }, "}"
+          | lVal, "=", expr, ";"
+          | lVal, "[", expr, "]", "=", expr, ";"
+          | "if", "(", expr, ")", statement;
+
+
+lVal = identifier, lValT;
+
+lValT = ".", identifier, lValT
+      | ;
+
+
+type = "int"
+     | "int", "[", "]" 
+     | "bool"
+     | identifier;
+
+
+identifier = ? identifier_literal ?;
