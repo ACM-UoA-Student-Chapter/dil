@@ -7,8 +7,9 @@ Declaration = StructDecl | FunctionDef;
 FunctionDef = "func", Identifier, "(",  FuncDefParamList, ")", "{",  { Statement }, "}";
 
 
-FuncDefParamList = [ParamIdentifierList, ":", Type, { ",", ParamIdentifierList, ":", Type }];
+FuncDefParamList = [ParamSet, { ",", ParamSet }];
 
+ParamSet = ParamIdentifierList, ":", Type;
 
 ParamIdentifierList = Identifier, { ",", Identifier };
 
