@@ -24,7 +24,11 @@ Statement = "{", { Statement }, "}"
           | "while", "(", Expression, ")", Statement
           | Identifier, "=", Expression, ";"
           | Identifier, "[", Expression, "]", "=", Expression, ";"
-          | "if", "(", Expression, ")", Statement;
+          | "if", "(", Expression, ")", Statement
+          | Identifier, "(", FuncCallArgList, ")", ";" 
+          | "return", Expression, ";";
+
+FuncCallArgList = [Identifier, { ",", Identifier }];
 
 
 Type = "int"
