@@ -28,7 +28,7 @@ Statement = "{", { Statement }, "}"
           | Identifier, "(", FuncCallArgList, ")", ";" 
           | "return", Expression, ";";
 
-FuncCallArgList = [Identifier, { ",", Identifier }];
+FuncCallArgList = [Expression, { ",", Expression }];
 
 
 Type = "int"
