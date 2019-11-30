@@ -1,5 +1,6 @@
 #ifndef DIL_LP_HASH_TABLE_TEST_H
 #define DIL_LP_HASH_TABLE_TEST_H
 
-int test_hash_table();
+bool test_hash_table();
+bool test_many_key_insertion();
 #endif //DIL_LP_HASH_TABLE_TEST_H

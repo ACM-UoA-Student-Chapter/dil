@@ -3,8 +3,14 @@
 #include <iostream>
 
 int main() {
-    int res = test_hash_table();
-    assert(res == 0);
+    std::cout << "Hash Table" << std::endl;
+    bool res = test_hash_table();
+    assert(res == true);
+
+    res = test_many_key_insertion();
+    assert(res == true);
+
+    std::cout << "\x1b[0;32m Hash table tests passed! \x1b[0m" << std::endl;
 
     std::cout << "\x1b[0;32m" << "All tests passed! \x1b[0m" << std::endl;
     return 0;
