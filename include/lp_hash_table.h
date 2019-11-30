@@ -25,8 +25,7 @@ public:
     lp_hash_table(int elems) {
         assert(elems > 0);
 
-        // TODO: maybe find a way to optimize this
-        this->nbuckets = elems;
+        this->nbuckets = elems * 1.3;
 
         // TODO: use our own allocator when it is ready.
         keys = (const char **)calloc(this->nbuckets, sizeof(const char *));
