@@ -22,17 +22,19 @@ StructField = Identifier, ":", Type, ";";
 
 Statement = "{", { Statement }, "}"
           | "while", "(", Expression, ")", Statement
-          | Identifier, "=", Expression, ";"
+          | LValue, "=", Expression, ";"
           | Identifier, "[", Expression, "]", "=", Expression, ";"
           | "if", "(", Expression, ")", Statement
           | Identifier, "(", FuncCallArgList, ")", ";" 
           | "return", [Expression], ";";
+      
+LValue = Identifier, [ ".", Identifier ];
 
 FuncCallArgList = [Expression, { ",", Expression }];
 
 
 Type = "int"
-     | "int", "[", "]" 
+     | "int", "[", "]"
      | "bool"
      | Identifier;
 
