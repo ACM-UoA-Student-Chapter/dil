@@ -10,11 +10,11 @@ struct lp_hash_table {
 private:
     const char **keys;
     T *values;
-    int buckets;
+    int nbuckets;
 
     unsigned int hash(const char *key) {
         // TODO: implement a better hashing method
-        return ((uintptr_t)key % buckets);
+        return ((uintptr_t)key % this->nbuckets);
     }
 
 public:
@@ -26,13 +26,13 @@ public:
         assert(elems > 0);
 
         // TODO: maybe find a way to optimize this
-        buckets = elems;
+        this->nbuckets = elems;
 
         // TODO: use our own allocator when it is ready.
-        keys = (const char **)malloc(buckets * sizeof(const char *));
-        values = (T *)malloc(buckets * sizeof(T));
+        keys = (const char **)malloc(this->nbuckets * sizeof(const char *));
+        values = (T *)malloc(this->nbuckets * sizeof(T));
 
-        for (int i = 0; i <= buckets; ++i) {
+        for (int i = 0; i <= this->nbuckets; ++i) {
             // We need to initialize the pointer array because the insertion loop will check on it's indices
             keys[i] = nullptr;
         }
@@ -52,7 +52,7 @@ public:
             }
 
             i++;
-            if (i == this->buckets)
+            if (i == this->nbuckets)
                 i = 0; // Wrap around at the start
             if (i == index)
                 return -1; // We have traversed the whole table and found no spot to insert in
@@ -83,7 +83,7 @@ public:
             }
 
             i++;
-            if (i == this->buckets)
+            if (i == this->nbuckets)
                 i = 0; // Wrap around at the start
             if (i == index)
                 return -1; // We have traversed the whole table and didn't find the element
