@@ -21,14 +21,11 @@ StructField = Identifier, ":", Type, ";";
 
 
 Statement = "{", { Statement }, "}"
-          | Type, Identifier, ";"
-          | "while", "(", Expression, ")", "{", { Statement }, "}"
-          | Lval, "=", Expression, ";"
-          | Lval, "[", Expression, "]", "=", Expression, ";"
+          | Type, Identifier, { ",", Identifier } ";"
+          | "while", "(", Expression, ")", { Statement }
+          | Identifier, "=", Expression, ";"
+          | Identifier, "[", Expression, "]", "=", Expression, ";"
           | "if", "(", Expression, ")", Statement;
-
-
-Lval = Identifier, { ".", Identifier };
 
 
 Type = "int"
