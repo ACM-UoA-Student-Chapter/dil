@@ -10,20 +10,18 @@ public:
 } test_type;
 
 int test_hash_table() {
-    std::cout << "Creating table of 1 element" << std::endl;
+    std::cout << "Hash Table" << std::endl;
     lp_hash_table<test_type> table = lp_hash_table<test_type>(1);
 
     test_type t;
     t.val = 1;
-    std::cout << "Inserting 1 element with value 1 into hash table" << std::endl;
     int res = table.insert("key", t);
-    assert(res == 0);
+    assert(res == true);
 
-    test_type r;
-    std::cout << "Trying to find that element" << std::endl;
-    int ret = table.find("key", &r);
-    assert(ret == 0);
-    assert(r.val == 1);
+    test_type *r;
+    r = table.find("key");
+    assert(r->val == 1);
 
+    std::cout << "\x1b[0;32m Hash table tests passed! \x1b[0m" << std::endl;
     return 0;
 }

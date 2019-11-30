@@ -34,56 +34,53 @@ public:
     };
 
     /*
-     * @return - 0 means everything went ok, -1 means there was an error
+     * @return. true - everything went ok. false - something went wrong
      */
-    int insert(const char *key, T value) {
+    bool insert(const char *key, T value) {
 
         int index = this->hash(key);
         int i = index;
 
         while(this->keys[i] != nullptr) {
             if (this->keys[i] == key) {
-                return -1;
+                return false;
             }
 
             i++;
             if (i == this->nbuckets)
                 i = 0; // Wrap around at the start
             if (i == index)
-                return -1; // We have traversed the whole table and found no spot to insert in
+                return false; // We have traversed the whole table and found no spot to insert in
         }
 
         this->keys[i] = key;
         this->values[i] = value;
-        return 0;
+        return true;
     };
 
     /*
-     * @return - 0 everything went ok. -1 something went wrong
-     * @param value - the value of the element under `key` or nullptr if it does not exist
+     * @return - Copy of the value under key or NULL if it does not exist
      */
-    int find(const char *key, T *value) {
-        // clear value from anything it might hold.
+    T* find(const char *key) {
         int index = this->hash(key);
 
         int i = index;
 
         while(this->keys[i] != nullptr) {
             if (this->keys[i] == key) {
-                // TODO: this seems unsafe
-                *value = this->values[i];
-                return 0;
+                assert(this->keys[i] != nullptr);
+                return &this->values[i];
             } else if (this->keys[i] == nullptr) {
-                return -1;
+                return NULL;
             }
 
             i++;
             if (i == this->nbuckets)
                 i = 0; // Wrap around at the start
             if (i == index)
-                return -1; // We have traversed the whole table and didn't find the element
+                return NULL; // We have traversed the whole table and didn't find the element
         }
-        return -1;
+        return NULL;
     };
 
     /*
