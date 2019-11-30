@@ -1,25 +1,22 @@
-Module = { [FunctionDef], [StructDef] }, "EOF";
+Module = { Declaration }, ? EOI ?;
 
 
-FunctionDef = "func", Identifier, "(",  [FuncDefArgList], ")", "{",  { [Statement] }, "}";
+Declaration = StructDecl | FunctionDef;
 
 
-FuncDefArgList = IdentifierList, ":", Type, FuncDefArgListT;
-
-FuncDefArgListT = ",", IdentifierList, ":", Type, FuncDefArgListT
-                | ;
+FunctionDef = "func", Identifier, "(",  FuncDefParamList, ")", "{",  { Statement }, "}";
 
 
-IdentifierList = Identifier, IdentifierListT;
-
-IdentifierListT = ",", Identifier, IdentifierListT
-                | ;
+FuncDefParamList = [ParamIdentifierList, ":", Type, { ",", ParamIdentifierList, ":", Type }];
 
 
-StructDef = "struct", Identifier, "{", { [VarDeclStmt] }, "}";
+ParamIdentifierList = Identifier, { ",", Identifier };
 
 
-VarDeclStmt = Type, Identifier, ";";
+StructDecl = "struct", Identifier, "{", { StructField }, "}";
+
+
+StructField = Identifier, ":", Type, ";";
 
 
 Type = "int"
@@ -28,4 +25,4 @@ Type = "int"
      | Identifier;
 
 
-Identifier = ? identifier_literal ?;
+Identifier = ? IDENTIFIER ?;
