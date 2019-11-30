@@ -29,13 +29,9 @@ public:
         this->nbuckets = elems;
 
         // TODO: use our own allocator when it is ready.
-        keys = (const char **)malloc(this->nbuckets * sizeof(const char *));
+        keys = (const char **)calloc(this->nbuckets, sizeof(const char *));
         values = (T *)malloc(this->nbuckets * sizeof(T));
 
-        for (int i = 0; i <= this->nbuckets; ++i) {
-            // We need to initialize the pointer array because the insertion loop will check on it's indices
-            keys[i] = nullptr;
-        }
     };
 
     /*
