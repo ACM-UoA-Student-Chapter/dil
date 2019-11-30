@@ -1,21 +1,18 @@
-statement = "{", { [statement] }, "}"
-          | type, identifier, ";"
-          | "while", "(", expr, ")", "{", { [statement] }, "}"
-          | lVal, "=", expr, ";"
-          | lVal, "[", expr, "]", "=", expr, ";"
-          | "if", "(", expr, ")", statement;
+Statement = "{", { Statement }, "}"
+          | Type, Identifier, ";"
+          | "while", "(", Expression, ")", "{", { Statement }, "}"
+          | Lval, "=", Expression, ";"
+          | Lval, "[", Expression, "]", "=", Expression, ";"
+          | "if", "(", Expression, ")", Statement;
 
 
-lVal = identifier, lValT;
-
-lValT = ".", identifier, lValT
-      | ;
+Lval = Identifier, { ".", Identifier };
 
 
-type = "int"
+Type = "int"
      | "int", "[", "]" 
      | "bool"
-     | identifier;
+     | Identifier;
 
 
-identifier = ? identifier_literal ?;
+Identifier = ? IDENTIFIER ?;
