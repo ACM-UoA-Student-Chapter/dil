@@ -21,7 +21,7 @@ Statement = "{", {Statement}, "}"
           | LValue, "=", Expression, ";"
           | Identifier, "[", Expression, "]", "=", Expression, ";"
           | "if", "(", Expression, ")", Statement
-          | Identifier, "(", FuncCallArgList, ")", ";"
+          | FunctionCall, ";"
           | "return", [Expression], ";";
 
 
