@@ -46,20 +46,11 @@ Expression = ExpressionTerm
            | "(", Expression, ")"
            | FunctionCall
            | "!", Expression
-           | ExpressionTerm, "+", ExpressionTerm
-           | ExpressionTerm, "-", ExpressionTerm 
-           | ExpressionTerm, "*", ExpressionTerm
-           | ExpressionTerm, "/", ExpressionTerm
-           | ExpressionTerm, "%", ExpressionTerm
            | ExpressionTerm, "[", ExpressionTerm, "]"
-           | ExpressionTerm, "&&", ExpressionTerm
-           | ExpressionTerm, "||", ExpressionTerm
-           | ExpressionTerm, "<", ExpressionTerm
-           | ExpressionTerm, ">", ExpressionTerm
-           | ExpressionTerm, "=<", ExpressionTerm
-           | ExpressionTerm, ">=", ExpressionTerm
-           | ExpressionTerm, "==", ExpressionTerm
-           | ExpressionTerm, "!=", ExpressionTerm;
+           | ExpressionTerm, InfixBinOp, ExpressionTerm;
+
+InfixBinOp = "+" | "-" | "*" | "/" | "%" | "&&" | "||" | "<" | "=<"| ">" | ">="| "=="| "!=";
+
 
 ExpressionTerm = Integer
                | Identifier 
