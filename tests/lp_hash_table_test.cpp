@@ -11,7 +11,7 @@ public:
 };
 
 bool test_hash_table() {
-  lp_hash_table<test_type *> table = lp_hash_table<test_type *>(1);
+  LpHashTable<test_type *> table = LpHashTable<test_type *>(1);
 
   const char *k = "key";
   test_type *t = new test_type(1);
@@ -26,7 +26,7 @@ bool test_hash_table() {
 
 bool test_many_key_insertion() {
 
-  lp_hash_table<test_type *> table = lp_hash_table<test_type *>(5);
+  LpHashTable<test_type *> table = LpHashTable<test_type *>(5);
 
   test_type *t1 = new test_type(1);
   test_type *t2 = new test_type(2);

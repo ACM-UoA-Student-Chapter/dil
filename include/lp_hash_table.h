@@ -7,7 +7,7 @@
 #include <stdlib.h>
 #include <type_traits>
 
-template <typename T> struct lp_hash_table {
+template <typename T> struct LpHashTable {
   static const bool is_pointer = std::is_pointer<T>::value;
   static const bool is_function_pointer =
       is_pointer
@@ -50,7 +50,7 @@ public:
   /*
    * Constructor. Assumes that `elems > 0`
    */
-  lp_hash_table(ssize_t elems) {
+  LpHashTable(ssize_t elems) {
     assert(elems > 0);
 
     this->nbuckets = elems * 1.3;
