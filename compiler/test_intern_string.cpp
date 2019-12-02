@@ -7,10 +7,11 @@ int main(int argc, char const *argv[]) {
 
   const char *address_1 = intern_string(input_1);
   const char *address_2 = intern_string(input_2);
+  
+  assert(address_1 != NULL);
+  assert(address_2 != NULL);
 
   assert(address_1 == intern_string(input_1));
   assert(address_2 == intern_string(input_2));
-  assert(address_1 != intern_string(input_2));
-  assert(address_2 != intern_string(input_1));
   return 0;
 }

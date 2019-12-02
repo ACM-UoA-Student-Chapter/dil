@@ -1,10 +1,10 @@
 #include <string>
 #include <vector>
 
-typedef struct InternedStr {
+struct InternedStr {
   char *str;
   size_t len;
-} InternedStr;
+};
 
 std::vector<InternedStr> old_strings;
 
