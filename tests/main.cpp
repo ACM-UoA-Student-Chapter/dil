@@ -10,9 +10,8 @@ int main() {
   res = test_many_key_insertion();
   assert(res == true);
 
-  std::cout << "\x1b[0;32m Hash table tests passed! \x1b[0m" << std::endl;
+  std::cout << "\tHash table tests passed!" << std::endl;
 
-  std::cout << "\x1b[0;32m"
-            << "All tests passed! \x1b[0m" << std::endl;
+  std::cout << "All tests passed!" << std::endl;
   return 0;
 }
