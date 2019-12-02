@@ -25,10 +25,6 @@ Statement = "{", {Statement}, "}"
           | "return", [Expression], ";";
 
 
-FunctionCall = Identifier, "(", FuncCallArgList, ")";
-
-FuncCallArgList = [ Expression, {",", Expression} ];
-
 /*
   Note that we only need to support Identifier.Identifier and not an arbitrary
   number of .field, like a.b.c = 2 or a    .b.c.d = 2; That is because structs
@@ -43,14 +39,26 @@ FuncCallArgList = [ Expression, {",", Expression} ];
 LValue = Identifier, [ ".", Identifier ];
 
 Expression = ExpressionTerm 
-           | "(", Expression, ")"
+           | ParenthesisExpression
            | FunctionCall
-           | "!", Expression
-           | ExpressionTerm, "[", ExpressionTerm, "]"
-           | ExpressionTerm, InfixBinOp, ExpressionTerm;
+           | NotExpression
+           | ArrayLookupExpression
+           | BinaryExpression
 
-InfixBinOp = "+" | "-" | "*" | "/" | "%" | "&&" | "||" | "<" | "=<"| ">" | ">="| "=="| "!=";
+BinOp = "+" | "-" | "*" | "/" | "%" | "&&" | "||" | "<" | "=<"| ">" | ">="| "=="| "!=";
 
+ParenthesisExpression = "(", Expression, ")";
+
+FunctionCall = Identifier, "(", FuncCallArgList, ")";
+
+FuncCallArgList = [ Expression, {",", Expression} ];
+
+
+BinaryExpression = ExpressionTerm, BinOp, ExpressionTerm;
+
+NotExpression = "!", Expression;
+
+ArrayLookupExpression = ExpressionTerm, "[", ExpressionTerm, "]";
 
 ExpressionTerm = Integer
                | Identifier 
