@@ -74,5 +74,5 @@ Type = "int"
      | Identifier;
 
 
-Integer = ? INTEGER ?;
+Integer = ? INTEGER_LITERAL ?;
 Identifier = ? IDENTIFIER ? ;
