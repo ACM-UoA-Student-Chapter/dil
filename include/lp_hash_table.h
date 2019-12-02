@@ -8,6 +8,7 @@
 
 template <typename T>
 struct lp_hash_table {
+    static_assert(std::is_pointer<T>::value, "T must be a pointer");
 private:
     const char **keys;
     T *values;
@@ -71,13 +72,13 @@ public:
     /*
      * @return - Copy of the value under key or NULL if it does not exist
      */
-    T* find(const char *key) {
+    T find(const char *key) {
 
         int i = find_index(key);
         if(i != -1) {
             if (this->keys[i] != nullptr) {
                 assert(this->keys[i] != nullptr);
-                return &this->values[i];
+                return this->values[i];
             } else if (this->keys[i] == nullptr) {
                 return NULL;
             }

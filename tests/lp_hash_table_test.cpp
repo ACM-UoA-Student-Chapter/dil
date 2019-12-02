@@ -4,19 +4,19 @@
 #include "./lp_hash_table_test.h"
 
 
-typedef struct test_type {
+class test_type {
 public:
     int val;
 
     test_type(int v) {
         this->val = v;
     }
-} test_type;
+};
 
 bool test_hash_table() {
-    lp_hash_table<test_type> table = lp_hash_table<test_type>(1);
+    lp_hash_table<test_type *> table = lp_hash_table<test_type *>(1);
 
-    test_type t = test_type(1);
+    test_type *t = new test_type(1);
     int res = table.insert("key", t);
     assert(res == true);
 
@@ -30,13 +30,13 @@ bool test_hash_table() {
 bool test_many_key_insertion() {
 
 
-    lp_hash_table<test_type> table = lp_hash_table<test_type>(5);
+    lp_hash_table<test_type *> table = lp_hash_table<test_type *>(5);
 
-    test_type t1 = test_type(1);
-    test_type t2 = test_type(2);
-    test_type t3 = test_type(3);
-    test_type t4 = test_type(4);
-    test_type t5 = test_type(5);
+    test_type *t1 = new test_type(1);
+    test_type *t2 = new test_type(2);
+    test_type *t3 = new test_type(3);
+    test_type *t4 = new test_type(4);
+    test_type *t5 = new test_type(5);
 
     int res1;
     res1 = table.insert("key1", t1);
