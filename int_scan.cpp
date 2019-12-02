@@ -3,30 +3,6 @@
 enum Base {OCT=8, DEC=10, HEX=16};
 
 /*
-The function returns false if the given input starts with the character '-'.
-If the given input starts with '+' or without a sign, the function returns true.
-The fuction also returns the index of the next character to be read in the input string.
-*/
-static inline bool check_sign(const char *input, int *position)
-{
-    if (input[0]=='-')
-    {
-        *position=1;
-        return false;
-    }
-    else if (input[0]=='+')
-    {
-        *position=1;
-        return true;
-    }
-    else
-    {
-        *position=0;
-        return true;
-    }
-}
-
-/*
 The function returns a member of the Base enumeration, which represents the base of the input string.
 If the input string starts with the character 0 (zero), then the input string represents an octal number.
 If the input string starts with the characters 0x or 0X (zero x/X), then the input string represents a hexadecimal
@@ -37,6 +13,7 @@ The function also returns the position of the next character of the input to be 
 */
 static inline Base check_base(const char *input, int *position)
 {
+    *position=0;
     if (input[*position]!='0')
         return DEC;
     else
@@ -111,28 +88,18 @@ static inline int char_to_dec(char digit, Base num_base)
         return base16_char_to_dec(digit);
 }
 
-#include <iostream>
-using namespace std;
-
-
 /*
-This function checks for overflow (or underflow) when the next digit of the input string is taken into consideration.
+This function checks for overflow when the next digit of the input string is taken into consideration.
 The digit's decimal value is passed as an argument.
-If there is overflow or underflow, the function returns true.
+If there is overflow, the function returns true.
 Otherwise the function returns false.
 This function computes the new value of the numerical sequnence when the next digit of the input string is taken
 into consideration. The new value of the numerical sequnence is stored in the val pointer.
 */
-static inline bool add(int *val, int digit_decval, bool positive, Base int_base)
+static inline bool add(int *val, int digit_decval, Base int_base)
 {
-    bool prev_val_zero=(*val==0);
-    bool prev_val_positive=(*val>0);
-    if (positive)
-        *val=(*val)*int_base+digit_decval;
-    else
-        *val=(*val)*int_base-digit_decval;
-    bool val_positive=(*val>0);
-    return (!prev_val_zero) && (prev_val_positive != val_positive) ;
+    *val=(*val)*int_base+digit_decval;
+    return *val<0;
 }
 
 /*
@@ -148,7 +115,6 @@ The success code is INT_SCANNED.
 int read_int(const char *input,  int *val)
 {
     int position;
-    bool positive=check_sign(input,&position);
     Base int_base=check_base(input,&position);
     bool enter=0;
     *val=0;
@@ -158,18 +124,10 @@ int read_int(const char *input,  int *val)
         int dec_dig=char_to_dec(input[i],int_base);
         if (dec_dig==-1)
             return OUT_OF_BOUNDS_ERROR;
-        if (add(val,dec_dig,positive,int_base))
+        if (add(val,dec_dig,int_base))
             return OVERFLOW_ERROR;
     }
     if (!enter && int_base!=OCT)        //input string may be the zero literal "0".
         return EMPTY_NUM_EXPR_ERROR;
     return INT_SCANNED;
-}
-
-int main(int argc,char **argv)
-{
-    int value;
-    int err_code=read_int(argv[1],&value);
-    cout<<"error code:\t"<<err_code<<endl;
-    cout<<"value:\t"<<value<<endl;
 }
