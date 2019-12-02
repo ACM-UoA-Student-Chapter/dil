@@ -2,12 +2,19 @@
 #define DIL_LP_HASH_TABLE_H
 
 #include <assert.h>
+#include <functional>
 #include <stdint.h>
 #include <stdlib.h>
 #include <type_traits>
 
 template <typename T> struct lp_hash_table {
-  static_assert(std::is_pointer<T>::value, "T must be a pointer");
+  static const bool is_pointer = std::is_pointer<T>::value;
+  static const bool is_function_pointer =
+      is_pointer
+          ? std::is_function<typename std::remove_pointer<T>::type>::value
+          : false;
+  static_assert(is_pointer && !is_function_pointer,
+                "T must be an object pointer but not a function pointer");
 
 private:
   const char **keys;
