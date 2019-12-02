@@ -15,16 +15,19 @@ StructDecl = "struct", Identifier, "{", {StructField}, "}";
 
 StructField = Identifier, ":", Type, ";";
 
-Statement = "{", {Statement}, "}" | "while", "(", Expression, ")",
-    Statement | LValue, "=", Expression, ";" | Identifier, "[", Expression, "]",
-    "=", Expression, ";" | "if", "(", Expression, ")", Statement | FunctionCall, ";"
-    | "return", [Expression], ";";
+
+Statement = "{", {Statement}, "}" 
+          | "while", "(", Expression, ")", Statement
+          | LValue, "=", Expression, ";"
+          | Identifier, "[", Expression, "]", "=", Expression, ";"
+          | "if", "(", Expression, ")", Statement
+          | Identifier, "(", FuncCallArgList, ")", ";"
+          | "return", [Expression], ";";
 
 
 FunctionCall = Identifier, "(", FuncCallArgList, ")";
 
 FuncCallArgList = [ Expression, {",", Expression} ];
-
 
 /*
   Note that we only need to support Identifier.Identifier and not an arbitrary
@@ -39,19 +42,36 @@ FuncCallArgList = [ Expression, {",", Expression} ];
 */
 LValue = Identifier, [ ".", Identifier ];
 
-Expression = ExpressionTerm | "(", Expression, ")" | FunctionCall | "!", Expression
-          | ExpressionTerm, "+", ExpressionTerm | ExpressionTerm, "-", ExpressionTerm 
-          | ExpressionTerm, "*", ExpressionTerm | ExpressionTerm, "/", ExpressionTerm
-          | ExpressionTerm, "%", ExpressionTerm | ExpressionTerm, "[", ExpressionTerm, "]"
-          | ExpressionTerm, "&&", ExpressionTerm | ExpressionTerm, "||", ExpressionTerm
-          | ExpressionTerm, "<", ExpressionTerm | ExpressionTerm, ">", ExpressionTerm
-          | ExpressionTerm, "=<", ExpressionTerm | ExpressionTerm, ">=", ExpressionTerm
-          | ExpressionTerm, "==", ExpressionTerm | ExpressionTerm, "!=", ExpressionTerm;
+Expression = ExpressionTerm 
+           | "(", Expression, ")"
+           | FunctionCall
+           | "!", Expression
+           | ExpressionTerm, "+", ExpressionTerm
+           | ExpressionTerm, "-", ExpressionTerm 
+           | ExpressionTerm, "*", ExpressionTerm
+           | ExpressionTerm, "/", ExpressionTerm
+           | ExpressionTerm, "%", ExpressionTerm
+           | ExpressionTerm, "[", ExpressionTerm, "]"
+           | ExpressionTerm, "&&", ExpressionTerm
+           | ExpressionTerm, "||", ExpressionTerm
+           | ExpressionTerm, "<", ExpressionTerm
+           | ExpressionTerm, ">", ExpressionTerm
+           | ExpressionTerm, "=<", ExpressionTerm
+           | ExpressionTerm, ">=", ExpressionTerm
+           | ExpressionTerm, "==", ExpressionTerm
+           | ExpressionTerm, "!=", ExpressionTerm;
 
-ExpressionTerm = Integer | Identifier | "true" | "false" | "new", "int", "[", Expression,"]";
+ExpressionTerm = Integer
+               | Identifier 
+               | "true" 
+               | "false" 
+               | "new", "int", "[", Expression,"]";
 
 
-Type = "int" | "int", "[", "]" | "bool" | Identifier;
+Type = "int"
+     | "int", "[", "]"
+     | "bool"
+     | Identifier;
 
 
 Integer = ? INTEGER ?;
