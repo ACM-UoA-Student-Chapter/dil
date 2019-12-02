@@ -4,10 +4,14 @@
 
 int main() {
   std::cout << "Hash Table" << std::endl;
-  bool res = test_hash_table();
+  bool res;
+  res = test_hash_table();
   assert(res == true);
 
   res = test_many_key_insertion();
+  assert(res == true);
+
+  res = test_memory_location_functionality();
   assert(res == true);
 
   std::cout << "\tHash table tests passed!" << std::endl;

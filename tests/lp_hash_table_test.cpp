@@ -2,6 +2,7 @@
 #include "lp_hash_table.h"
 #include <assert.h>
 #include <iostream>
+#include <cstring>
 
 class test_type {
 public:
@@ -61,6 +62,39 @@ bool test_many_key_insertion() {
 
   r = table.find(k5);
   assert(r->val = 5);
+
+  return true;
+}
+
+/*
+ * NOTE: this test will fail if the compiler implementation interns strings.
+ * IE if two `const char *` have the same address in memory this test will fail.
+ */
+bool test_memory_location_functionality() {
+  LpHashTable<test_type *> table = LpHashTable<test_type *>(3);
+
+  test_type *t1 = new test_type(1);
+
+  const char *k1 = "key1";
+  const char *k2 = "key1";
+  assert(strcmp(k1, k2) == 0);
+
+  const char *not_exist = "not_exist";
+
+  table.insert(k1, t1);
+
+  test_type *r;
+
+  // test that we get NULL for keys that don't exist
+  r = table.find(not_exist);
+  assert(r == NULL);
+
+  // test that identical keys in different memory locations
+  // return NULL. This piece of code assumes that the compiler
+  // won't optimize strings in such a way that 2 identical strings
+  // point to the same memory location
+  r = table.find(k2);
+  assert(r == NULL);
 
   return true;
 }
