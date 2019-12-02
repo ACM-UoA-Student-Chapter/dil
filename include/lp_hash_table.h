@@ -12,17 +12,17 @@ template <typename T> struct lp_hash_table {
 private:
   const char **keys;
   T *values;
-  size_t nbuckets;
+  ssize_t nbuckets;
 
-  unsigned int hash(const char *key) {
+  ssize_t hash(const char *key) {
     // TODO: implement a better hashing method
-    return ((uintptr_t)key % this->nbuckets);
+    return (ssize_t)((intptr_t)key % this->nbuckets);
   }
 
-  int find_index(const char *key) {
+  ssize_t find_index(const char *key) {
 
-    int index = this->hash(key);
-    int i = index;
+    ssize_t index = this->hash(key);
+    ssize_t i = index;
 
     while (this->keys[i] != nullptr) {
       if (this->keys[i] == key) {
@@ -43,7 +43,7 @@ public:
   /*
    * Constructor. Assumes that `elems > 0`
    */
-  lp_hash_table(int elems) {
+  lp_hash_table(ssize_t elems) {
     assert(elems > 0);
 
     this->nbuckets = elems * 1.3;
@@ -58,7 +58,7 @@ public:
    */
   void insert(const char *key, T value) {
 
-    int i = find_index(key);
+    ssize_t i = find_index(key);
     assert(i != -1);
     assert(this->keys[i] != key);
     this->keys[i] = key;
@@ -70,7 +70,7 @@ public:
    */
   T find(const char *key) {
 
-    int i = find_index(key);
+    ssize_t i = find_index(key);
     if (i == -1) {
       return NULL;
     }
