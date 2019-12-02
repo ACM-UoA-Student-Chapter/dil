@@ -66,6 +66,9 @@ public:
     // TODO: use our own allocator when it is ready.
     keys = (const char **)calloc(this->nbuckets, sizeof(const char *));
     values = (T *)calloc(this->nbuckets, sizeof(T));
+
+    assert(keys != NULL);
+    assert(values != NULL);
   };
 
   /*
