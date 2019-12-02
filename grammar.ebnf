@@ -15,10 +15,13 @@ StructDecl = "struct", Identifier, "{", {StructField}, "}";
 
 StructField = Identifier, ":", Type, ";";
 
-Statement = "{", {Statement}, "}" | "while", "(", Expression, ")",
-    Statement | LValue, "=", Expression, ";" | Identifier, "[", Expression, "]",
-    "=", Expression, ";" | "if", "(", Expression, ")", Statement | Identifier,
-    "(", FuncCallArgList, ")", ";" | "return", [Expression], ";";
+Statement = "{", {Statement}, "}" 
+          | "while", "(", Expression, ")", Statement
+          | LValue, "=", Expression, ";"
+          | Identifier, "[", Expression, "]", "=", Expression, ";"
+          | "if", "(", Expression, ")", Statement
+          | Identifier, "(", FuncCallArgList, ")", ";"
+          | "return", [Expression], ";";
 
 /*
   Note that we only need to support Identifier.Identifier and not an arbitrary
@@ -35,6 +38,9 @@ LValue = Identifier, [ ".", Identifier ];
 
 FuncCallArgList = [ Expression, {",", Expression} ];
 
-Type = "int" | "int", "[", "]" | "bool" | Identifier;
+Type = "int"
+     | "int", "[", "]"
+     | "bool"
+     | Identifier;
 
 Identifier = ? IDENTIFIER ? ;
