@@ -12,7 +12,7 @@ struct lp_hash_table {
 private:
     const char **keys;
     T *values;
-    int nbuckets;
+    size_t nbuckets;
 
     unsigned int hash(const char *key) {
         // TODO: implement a better hashing method
@@ -51,22 +51,20 @@ public:
 
         // TODO: use our own allocator when it is ready.
         keys = (const char **)calloc(this->nbuckets, sizeof(const char *));
-        values = (T *)malloc(this->nbuckets * sizeof(T));
+        values = (T *)calloc(this->nbuckets, sizeof(T));
 
     };
 
     /*
-     * @return. true - everything went ok. false - something went wrong
+     * @return. nothing. we are sure that we can insert
      */
-    bool insert(const char *key, T value) {
+    void insert(const char *key, T value) {
 
         int i = find_index(key);
-        if(i != -1 && this->keys[i] != key) {
-            this->keys[i] = key;
-            this->values[i] = value;
-            return true;
-        }
-        return false;
+        assert(i != -1);
+        assert(this->keys[i] != key);
+        this->keys[i] = key;
+        this->values[i] = value;
     };
 
     /*
@@ -75,15 +73,15 @@ public:
     T find(const char *key) {
 
         int i = find_index(key);
-        if(i != -1) {
-            if (this->keys[i] != nullptr) {
-                assert(this->keys[i] != nullptr);
-                return this->values[i];
-            } else if (this->keys[i] == nullptr) {
-                return NULL;
-            }
+        if(i == -1) {
+            return NULL;
         }
-        return NULL;
+        if (this->keys[i] != nullptr) {
+            assert(this->values[i] != nullptr);
+            return this->values[i];
+        } else {
+            return NULL;
+        }
 
     };
 };

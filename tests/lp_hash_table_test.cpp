@@ -17,8 +17,7 @@ bool test_hash_table() {
     lp_hash_table<test_type *> table = lp_hash_table<test_type *>(1);
 
     test_type *t = new test_type(1);
-    int res = table.insert("key", t);
-    assert(res == true);
+    table.insert("key", t);
 
     test_type *r;
     r = table.find("key");
@@ -38,25 +37,11 @@ bool test_many_key_insertion() {
     test_type *t4 = new test_type(4);
     test_type *t5 = new test_type(5);
 
-    int res1;
-    res1 = table.insert("key1", t1);
-    assert(res1 == true);
-
-    int res2;
-    res2 = table.insert("key2", t2);
-    assert(res2 == true);
-
-    int res3;
-    res3 = table.insert("key3", t3);
-    assert(res3 == true);
-
-    int res4;
-    res4 = table.insert("key4", t4);
-    assert(res4 == true);
-
-    int res5;
-    res5 = table.insert("key5", t5);
-    assert(res5 == true);
+    table.insert("key1", t1);
+    table.insert("key2", t2);
+    table.insert("key3", t3);
+    table.insert("key4", t4);
+    table.insert("key5", t5);
 
     test_type *r;
 
