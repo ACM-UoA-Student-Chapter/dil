@@ -1,9 +1,15 @@
+(*
+* Copyright: Copyright Ioannis Cheilaris 2019.
+* License:   $(LINK2 http://www.boost.org/LICENSE_1_0.txt, Boost License 1.0)
+* Authors:   Ioannis Cheilaris, Stefanos Baziotis
+*)
+
+
 Module = {Declaration}, ? EOI ? ;
 
 Declaration = StructDecl | FunctionDef;
 
-FunctionDef = "func", Identifier, "(", FuncDefParamList, ")", "{", {Statement},
-    "}";
+FunctionDef = "func", Identifier, "(", FuncDefParamList, ")", [":", Type] "{", {VarDecleration}, {Statement}, "}";
 
 FuncDefParamList = [ ParamSet, {",", ParamSet} ];
 
@@ -11,19 +17,23 @@ ParamSet = ParamIdentifierList, ":", Type;
 
 ParamIdentifierList = Identifier, {",", Identifier};
 
+VarDecleration = Type, Identifier, ["=", Expression], ";";
+
 StructDecl = "struct", Identifier, "{", {StructField}, "}";
 
 StructField = Identifier, ":", Type, ";";
+
 
 Statement = "{", {Statement}, "}" 
           | "while", "(", Expression, ")", Statement
           | LValue, "=", Expression, ";"
           | Identifier, "[", Expression, "]", "=", Expression, ";"
           | "if", "(", Expression, ")", Statement
-          | Identifier, "(", FuncCallArgList, ")", ";"
+          | FunctionCall, ";"
           | "return", [Expression], ";";
 
-/*
+
+(*
   Note that we only need to support Identifier.Identifier and not an arbitrary
   number of .field, like a.b.c = 2 or a    .b.c.d = 2; That is because structs
   and arrays are always references, i.e. pointers. So, the above can be achieved
@@ -33,14 +43,49 @@ Statement = "{", {Statement}, "}"
   because we can achieve that as:
   Arr arr = a.b;  // arr is a pointer under the hood - any change to its
   elements will be reflected to a.b arr = a.b;
-*/
+*)
+
 LValue = Identifier, [ ".", Identifier ];
 
+FunctionCall = Identifier, "(", FuncCallArgList, ")";
+
 FuncCallArgList = [ Expression, {",", Expression} ];
+
+
+Expression = OrExpr, { "&&", OrExpr };
+
+OrExpr = CmpExpr, { "||", CmpExpr };
+
+CmpExpr = PlusMinusExpr, { ( "<" || "<=" || ">" || ">=" || "==" || "!="), PlusMinusExpr };
+
+PlusMinusExpr = MultDivModExpr, { ("+" || "-"), MultDivModExpr };
+
+MultDivModExpr = NotExpression, { ("*" || "/" || "%"), NotExpression };
+
+NotExpression = { "!" }, ExpressionTerm;
+
+(*
+  Array lookup, lvalue and function call make this grammar ll(2) due to the way they are written.
+*)
+ExpressionTerm = Integer 
+               | "true" 
+               | "false" 
+               | "new", "int", "[", Expression,"]"
+               | ArrayLookupExpression
+               | LValue
+               | FunctionCall
+               | ParenExpr;
+
+
+ArrayLookupExpression = Identifier, "[", Expression, "]";
+
+ParenExpression = "(", Expression, ")";
 
 Type = "int"
      | "int", "[", "]"
      | "bool"
      | Identifier;
 
+
+Integer = ? INTEGER_LITERAL ?;
 Identifier = ? IDENTIFIER ? ;
