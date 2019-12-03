@@ -117,18 +117,16 @@ int read_int(const char *input,  int *val)
 {
     int position;
     const int int_base=check_base(input,&position);
-    bool enter=0;
     *val=0;
+    if (input[position]=='\0' && int_base!=OCT)        //input string may be the zero literal "0".
+        return EMPTY_NUM_EXPR_ERROR;
     for (int i=position;input[i]!='\0';i++)
     {
-        enter=1;
         int dec_dig=char_to_dec(input[i],int_base);
         if (dec_dig==-1)
             return OUT_OF_BOUNDS_ERROR;
         if (add(val,dec_dig,int_base))
             return OVERFLOW_ERROR;
     }
-    if (!enter && int_base!=OCT)        //input string may be the zero literal "0".
-        return EMPTY_NUM_EXPR_ERROR;
     return INT_SCANNED;
 }
