@@ -6,11 +6,14 @@
 #include <cstdlib>
 #include <cerrno>
 
-inline void panic(const char * message)
+inline void panic(bool condition)
 {
-    char buff[256UL];
+    if (condition)
+    {
+        char buff[256UL];
 
-    std::printf("%s:%s:%d: %s [%s]", __FILE__, __func__, __LINE__, message, strerror_r(errno, buff, sizeof(buff)));
+        std::printf("%s:%s:%d: %s", __FILE__, __func__, __LINE__, strerror_r(errno, buff, sizeof(buff)));
 
-    std::exit(EXIT_FAILURE);
+        std::exit(EXIT_FAILURE);
+    }
 }

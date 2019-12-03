@@ -6,52 +6,53 @@
 #include <cstdlib>
 #include "panic.hpp"
 
-namespace log
+inline void single_print(const char * arg, const char * next)
 {
-    namespace detail
+    panic(std::printf("%s%s", arg, next) < 0);
+}
+
+inline void single_print(char arg, const char * next)
+{
+    panic(std::printf("%c%s", arg, next) < 0);
+}
+
+inline void single_print(int arg, const char * next)
+{
+    panic(std::printf("%d%s", arg, next) < 0);
+}
+
+inline void single_print(float arg, const char * next)
+{
+    panic(std::printf("%f%s", arg, next) < 0);
+}
+
+inline void single_print(double arg, const char * next)
+{
+    panic(std::printf("%lf%s", arg, next) < 0);
+}
+
+inline void single_print(bool arg, const char * next)
+{
+    panic(std::printf("%s%s", arg ? "true" : "false", next) < 0);
+}
+
+template <typename First, typename ...Rest>
+inline void print(First&& first, Rest&&... rest)
+{
+    if constexpr (sizeof...(rest) > 1UL)
     {
-        template <typename T>
-        constexpr char modifier[5] = "%s%s";
+        single_print(std::forward<First>(first), " ");
 
-        template <>
-        constexpr char modifier<char>[5] = "%c%s";
-
-        template <>
-        constexpr char modifier<int>[5] = "%d%s";
-
-        template <>
-        constexpr char modifier<float>[5] = "%f%s";
-
-        template <>
-        constexpr char modifier<double>[6] = "%lf%s";
-
-        template <>
-        constexpr char modifier<bool>[5] = "%d%s";
-
-        template <typename First, typename ...Rest>
-        void print(First&& first, Rest&&... rest)
-        {
-            using decayed = typename std::decay<First>::type;
-
-            if constexpr (sizeof...(rest) > 1UL)
-            {
-                if (std::printf(modifier<decayed>, std::forward<First>(first), " ") < 0)
-                    panic("log::detail::print");
-
-                print(std::forward<Rest>(rest)...);
-            }
-            else
-            {
-                if (std::printf(modifier<decayed>, std::forward<First>(first), "\n") < 0)
-                    panic("log::detail::print");
-            }
-        }
+        print(std::forward<Rest>(rest)...);
     }
-
-    template <typename ...Args>
-    void syntax_error(Args&&... args)
+    else
     {
-        detail::print("\033[31mSyntax Error:\033[0m", std::forward<Args>(args)...);
+        single_print(std::forward<First>(first), "\n");
     }
 }
 
+template <typename ...Args>
+inline void syntax_error(Args&&... args)
+{
+    print("\033[31mSyntax Error:\033[0m", std::forward<Args>(args)...);
+}
