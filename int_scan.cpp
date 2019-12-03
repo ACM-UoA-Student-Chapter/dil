@@ -88,22 +88,6 @@ static int char_to_dec(char digit, const int num_base)
 }
 
 /*
-This function checks for overflow when the next digit of the input string is taken into consideration.
-The digit's decimal value is passed as an argument.
-If there is overflow, the function returns true.
-Otherwise the function returns false.
-This function computes the new value of the numerical sequnence when the next digit of the input string is taken
-into consideration. The new value of the numerical sequnence is stored in the val pointer.
-*/
-static bool add(int *val, int digit_decval, const int int_base)
-{
-    int value=*val;
-    value=value*int_base+digit_decval;
-    *val=value;
-    return *val<0;
-}
-
-/*
 The function scans the numerical input string passed as an argument and strores its value in the val pointer.
 This function returns the respective error code in case of error or the success code when the integer is
 successfully scanned.
@@ -120,13 +104,16 @@ int read_int(const char *input,  int *val)
     *val=0;
     if (input[position]=='\0' && int_base!=OCT)        //input string may be the zero literal "0".
         return EMPTY_NUM_EXPR_ERROR;
+    int sum=0;
     for (int i=position;input[i]!='\0';i++)
     {
         int dec_dig=char_to_dec(input[i],int_base);
         if (dec_dig==-1)
             return OUT_OF_BOUNDS_ERROR;
-        if (add(val,dec_dig,int_base))
+        sum=sum*int_base+dec_dig;
+        if (sum<0)
             return OVERFLOW_ERROR;
     }
+    *val=sum;
     return INT_SCANNED;
 }
