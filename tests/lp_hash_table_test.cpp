@@ -66,18 +66,15 @@ bool test_many_key_insertion() {
   return true;
 }
 
-/*
- * NOTE: this test will fail if the compiler implementation interns strings.
- * IE if two `const char *` have the same address in memory this test will fail.
- */
 bool test_memory_location_functionality() {
   LpHashTable<test_type *> table = LpHashTable<test_type *>(3);
 
   test_type *t1 = new test_type(1);
 
+  // Dynamically allocate k2 so k1 and k2 have different addresses in memory
   const char *k1 = "key1";
-  const char *k2 = "key1";
-  assert(strcmp(k1, k2) == 0);
+  char *k2 = strdup(k1);
+  assert((intptr_t)k1 != (intptr_t)k2);
 
   const char *not_exist = "not_exist";
 
@@ -89,10 +86,8 @@ bool test_memory_location_functionality() {
   r = table.find(not_exist);
   assert(r == NULL);
 
-  // test that identical keys in different memory locations
-  // return NULL. This piece of code assumes that the compiler
-  // won't optimize strings in such a way that 2 identical strings
-  // point to the same memory location
+  // test that two keys with identical characters
+  // having different memory addresses fail find
   r = table.find(k2);
   assert(r == NULL);
 
