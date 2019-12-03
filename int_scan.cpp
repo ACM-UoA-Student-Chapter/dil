@@ -21,21 +21,15 @@ static int check_base(const char *input, int *position)
         *position=pos;
         return DEC;
     }
-    else
+    pos++;
+    if (input[pos]=='x' || input[pos]=='X')
     {
         pos++;
-        if (input[pos]=='x' || input[pos]=='X')
-        {
-            pos++;
-            *position=pos;
-            return HEX;
-        }
-        else
-        {
-            *position=pos;
-            return OCT;
-        }
+        *position=pos;
+        return HEX;
     }
+    *position=pos;
+    return OCT;
 }
 
 /*
@@ -47,8 +41,7 @@ static int base10_char_to_dec(char digit)
 {
     if ('0'<=digit && digit<='9')
         return digit-'0';
-    else
-        return -1;
+    return -1;
 }
 
 /*
@@ -60,8 +53,7 @@ static int base8_char_to_dec(char digit)
 {
     if ('0'<=digit && digit<='7')
         return digit-'0';
-    else
-        return -1;
+    return -1;
 }
 
 /*
@@ -74,12 +66,11 @@ static int base16_char_to_dec(char digit)
 {
     if ('0'<=digit && digit<='9')
         return digit-'0';
-    else if ('a'<=digit && digit<='f')
+    if ('a'<=digit && digit<='f')
         return 10+digit-'a';
-    else if ('A'<=digit && digit<='F')
+    if ('A'<=digit && digit<='F')
         return 10+digit-'A';
-    else
-        return -1;
+    return -1;
 }
 
 /*
@@ -91,10 +82,9 @@ static int char_to_dec(char digit, const int num_base)
 {
     if (num_base==DEC)
         return base10_char_to_dec(digit);
-    else if (num_base==OCT)
+    if (num_base==OCT)
         return base8_char_to_dec(digit);
-    else
-        return base16_char_to_dec(digit);
+    return base16_char_to_dec(digit);
 }
 
 /*
