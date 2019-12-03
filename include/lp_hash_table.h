@@ -84,6 +84,7 @@ public:
    * @return. nothing. we are sure that we can insert
    */
   void insert(const char *key, T value) {
+    assert(key != NULL && value != NULL);
 
     ssize_t i = find_index(key);
     assert(i != -1);
@@ -96,6 +97,7 @@ public:
    * @return - Copy of the value under key or NULL if it does not exist
    */
   T find(const char *key) {
+    assert(key != NULL);
 
     ssize_t i = find_index(key);
     if (i == -1) {
