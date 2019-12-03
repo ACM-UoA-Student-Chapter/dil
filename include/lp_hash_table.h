@@ -84,7 +84,8 @@ public:
    * @return. nothing. we are sure that we can insert
    */
   void insert(const char *key, T value) {
-    assert(key != NULL && value != NULL);
+    assert(key != NULL);
+    assert(value != NULL);
 
     ssize_t i = find_index(key);
     assert(i != -1);
