@@ -8,12 +8,21 @@
 #include <type_traits>
 
 /*
- * LpHashTable is a struct implementing a `linear probing hash table`.
- * You can find more information about about that here: https://en.wikipedia.org/wiki/Linear_probing.
- * It functions like a normal hash table but it handles collisions by linearly
- * iterating over the hash table until an empty spot is found. The search is performed
- * in a similar fashion. Because of the use case we are covering in the DIL compiler
- * there is no need for a `delete` method and the size of the table is constant.
+ * LpHashTable is a map of key-value pairs where keys are constant strings
+ * and values are of any type. The supported operations are insertion and search.
+ *
+ * NOTE: The number of the emelements to be stored is constant and provided in
+ * the map's construction
+ *
+ * NOTE: The contents of the key K do not matter when inserting and searching.
+ * That is because the map uses the pointer value to insert and search.
+ * IE the keys are handled like integer keys.
+ *
+ * NOTE: The type T of the values provided must be of object pointer.
+ *
+ * Performance:
+ * Insertion: O(1) amortized.
+ * Search: O(1) amortized.
  */
 template <typename T> struct LpHashTable {
   static const bool is_pointer = std::is_pointer<T>::value;
