@@ -8,7 +8,7 @@
 #include <type_traits>
 
 /*
- * LpHashTable is a map of key-value pairs where keys are constant strings
+ * LpHashTable is a map of key-value pairs where keys are `const char *`
  * and values are of any type. The supported operations are insertion and search.
  *
  * NOTE: The number of the emelements to be stored is constant and provided in
