@@ -1,6 +1,8 @@
 #include "int_scan.hpp"
 
-enum Base {OCT=8, DEC=10, HEX=16};
+static const int OCT=8;
+static const int DEC=10;
+static const int HEX=16;
 
 /*
 The function returns a member of the Base enumeration, which represents the base of the input string.
@@ -11,7 +13,7 @@ If the input string does not have one of these prefixes, then the input string r
 The function starts looking for the prefix from the index specified by the position pointer.
 The function also returns the position of the next character of the input to be read after the prefix (if it exists).
 */
-static inline Base check_base(const char *input, int *position)
+static inline int check_base(const char *input, int *position)
 {
     *position=0;
     if (input[*position]!='0')
@@ -75,10 +77,10 @@ static inline int base16_char_to_dec(char digit)
 
 /*
 The function returns the integer value of the digit character passed as an argument depending on the digit's base.
-The digit's base is specified by the Base argument of the function
+The digit's base is specified by the num_base argument of the function
 If the digit is out of bounds, the function returns -1.
 */
-static inline int char_to_dec(char digit, Base num_base)
+static inline int char_to_dec(char digit, const int num_base)
 {
     if (num_base==DEC)
         return base10_char_to_dec(digit);
@@ -96,7 +98,7 @@ Otherwise the function returns false.
 This function computes the new value of the numerical sequnence when the next digit of the input string is taken
 into consideration. The new value of the numerical sequnence is stored in the val pointer.
 */
-static inline bool add(int *val, int digit_decval, Base int_base)
+static inline bool add(int *val, int digit_decval, const int int_base)
 {
     *val=(*val)*int_base+digit_decval;
     return *val<0;
@@ -115,7 +117,7 @@ The success code is INT_SCANNED.
 int read_int(const char *input,  int *val)
 {
     int position;
-    Base int_base=check_base(input,&position);
+    const int int_base=check_base(input,&position);
     bool enter=0;
     *val=0;
     for (int i=position;input[i]!='\0';i++)
