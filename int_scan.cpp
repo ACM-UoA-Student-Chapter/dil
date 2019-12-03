@@ -13,7 +13,7 @@ If the input string does not have one of these prefixes, then the input string r
 The function starts looking for the prefix from the index specified by the position pointer.
 The function also returns the position of the next character of the input to be read after the prefix (if it exists).
 */
-static inline int check_base(const char *input, int *position)
+static int check_base(const char *input, int *position)
 {
     int pos=0;
     if (input[pos]!='0')
@@ -43,7 +43,7 @@ The function returns the integer value of the digit character passed as an argum
 The digit's base is 10.
 If the digit is out of bounds, the function returns -1.
 */
-static inline int base10_char_to_dec(char digit)
+static int base10_char_to_dec(char digit)
 {
     if ('0'<=digit && digit<='9')
         return digit-'0';
@@ -56,7 +56,7 @@ The function returns the integer value of the digit character passed as an argum
 The digit's base is 8.
 If the digit is out of bounds, the function returns -1.
 */
-static inline int base8_char_to_dec(char digit)
+static int base8_char_to_dec(char digit)
 {
     if ('0'<=digit && digit<='7')
         return digit-'0';
@@ -70,7 +70,7 @@ The digit's base is 16.
 If the digit is out of bounds, the function returns -1.
 Both uppercase and lowercase letters a-f and A-F are considered to be valid.
 */
-static inline int base16_char_to_dec(char digit)
+static int base16_char_to_dec(char digit)
 {
     if ('0'<=digit && digit<='9')
         return digit-'0';
@@ -87,7 +87,7 @@ The function returns the integer value of the digit character passed as an argum
 The digit's base is specified by the num_base argument of the function
 If the digit is out of bounds, the function returns -1.
 */
-static inline int char_to_dec(char digit, const int num_base)
+static int char_to_dec(char digit, const int num_base)
 {
     if (num_base==DEC)
         return base10_char_to_dec(digit);
@@ -105,7 +105,7 @@ Otherwise the function returns false.
 This function computes the new value of the numerical sequnence when the next digit of the input string is taken
 into consideration. The new value of the numerical sequnence is stored in the val pointer.
 */
-static inline bool add(int *val, int digit_decval, const int int_base)
+static bool add(int *val, int digit_decval, const int int_base)
 {
     int value=*val;
     value=value*int_base+digit_decval;
