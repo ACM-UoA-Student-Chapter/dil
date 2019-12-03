@@ -1,54 +1,38 @@
+/*
+ * Copyright: Copyright billsioros (Sioros Vasileios) 2019.
+ * License:   $(LINK2 http://www.boost.org/LICENSE_1_0.txt, Boost License 1.0)
+ * Authors:   billsioros (Sioros Vasileios)
+ */
 
 #pragma once
 
-#include <utility>
 #include <cstdio>
-#include <cstdlib>
 
-inline void single_print(const char * arg)
-{
-    std::printf("%s ", arg);
+template <typename Arg> inline void log(Arg arg) { std::printf("%s ", arg); }
+
+template <> inline void log<char>(char arg) { std::printf("%c ", arg); }
+
+template <> inline void log<int>(int arg) { std::printf("%d ", arg); }
+
+template <> inline void log<float>(float arg) { std::printf("%f ", arg); }
+
+template <> inline void log<double>(double arg) { std::printf("%lf ", arg); }
+
+template <> inline void log<bool>(bool arg) {
+  std::printf("%s ", arg ? "true" : "false");
 }
 
-inline void single_print(char arg)
-{
-    std::printf("%c ", arg);
+template <typename First, typename... Rest>
+inline void log(First first, Rest... rest) {
+  log(first);
+  log(rest...);
 }
 
-inline void single_print(int arg)
-{
-    std::printf("%d ", arg);
-}
+template <typename... Args> inline void syntax_error(Args... args) {
+  // "\033[31m": This ANSI escape code sets the terminal' s text color to red
+  // "\033[0m":  This ANSI escape code resets the terminal' s text color
+  // "\033[31mSyntax Error:\033[0m": Using the two together results in the
+  //                                 string "Syntax Error:" being colored red
 
-inline void single_print(float arg)
-{
-    std::printf("%f ", arg);
-}
-
-inline void single_print(double arg)
-{
-    std::printf("%lf ", arg);
-}
-
-inline void single_print(bool arg)
-{
-    std::printf("%s ", arg ? "true" : "false");
-}
-
-template <typename Last>
-inline void print(Last last)
-{
-    single_print(last); std::printf("\n");
-}
-
-template <typename First, typename Second, typename ...Rest>
-inline void print(First first, Second second, Rest... rest)
-{
-    single_print(first); print(second, rest...);
-}
-
-template <typename ...Args>
-inline void syntax_error(Args&&... args)
-{
-    print("\033[31mSyntax Error:\033[0m", std::forward<Args>(args)...);
+  log("\033[31mSyntax Error:\033[0m", args...);
 }
