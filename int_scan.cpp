@@ -15,19 +15,26 @@ The function also returns the position of the next character of the input to be 
 */
 static inline int check_base(const char *input, int *position)
 {
-    *position=0;
-    if (input[*position]!='0')
+    int pos=0;
+    if (input[pos]!='0')
+    {
+        *position=pos;
         return DEC;
+    }
     else
     {
-        (*position)++;
-        if (input[*position]=='x' || input[*position]=='X')
+        pos++;
+        if (input[pos]=='x' || input[pos]=='X')
         {
-            (*position)++;
+            pos++;
+            *position=pos;
             return HEX;
         }
         else
+        {
+            *position=pos;
             return OCT;
+        }
     }
 }
 
@@ -100,7 +107,9 @@ into consideration. The new value of the numerical sequnence is stored in the va
 */
 static inline bool add(int *val, int digit_decval, const int int_base)
 {
-    *val=(*val)*int_base+digit_decval;
+    int value=*val;
+    value=value*int_base+digit_decval;
+    *val=value;
     return *val<0;
 }
 
