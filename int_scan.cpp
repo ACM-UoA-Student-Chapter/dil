@@ -1,4 +1,5 @@
 #include "int_scan.hpp"
+#include <ctype.h>
 
 static const int OCT=8;
 static const int DEC=10;
@@ -22,7 +23,7 @@ static int check_base(const char *input, int *position)
         return DEC;
     }
     pos++;
-    if (input[pos]=='x' || input[pos]=='X')
+    if (tolower(input[pos])=='x')
     {
         pos++;
         *position=pos;
@@ -66,10 +67,9 @@ static int base16_char_to_dec(char digit)
 {
     if ('0'<=digit && digit<='9')
         return digit-'0';
-    if ('a'<=digit && digit<='f')
-        return 10+digit-'a';
-    if ('A'<=digit && digit<='F')
-        return 10+digit-'A';
+    char ldigit=tolower(digit);
+    if ('a'<=ldigit && ldigit<='f')
+        return 10+ldigit-'a';
     return -1;
 }
 
@@ -101,7 +101,6 @@ int read_int(const char *input,  int *val)
 {
     int position;
     const int int_base=check_base(input,&position);
-    *val=0;
     if (input[position]=='\0' && int_base!=OCT)        //input string may be the zero literal "0".
         return EMPTY_NUM_EXPR_ERROR;
     int sum=0;
