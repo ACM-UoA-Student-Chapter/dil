@@ -5,49 +5,46 @@
 #include <cstdio>
 #include <cstdlib>
 
-inline void single_print(const char * arg, const char * next)
+inline void single_print(const char * arg)
 {
-    std::printf("%s%s", arg, next);
+    std::printf("%s ", arg);
 }
 
-inline void single_print(char arg, const char * next)
+inline void single_print(char arg)
 {
-    std::printf("%c%s", arg, next);
+    std::printf("%c ", arg);
 }
 
-inline void single_print(int arg, const char * next)
+inline void single_print(int arg)
 {
-    std::printf("%d%s", arg, next);
+    std::printf("%d ", arg);
 }
 
-inline void single_print(float arg, const char * next)
+inline void single_print(float arg)
 {
-    std::printf("%f%s", arg, next);
+    std::printf("%f ", arg);
 }
 
-inline void single_print(double arg, const char * next)
+inline void single_print(double arg)
 {
-    std::printf("%lf%s", arg, next);
+    std::printf("%lf ", arg);
 }
 
-inline void single_print(bool arg, const char * next)
+inline void single_print(bool arg)
 {
-    std::printf("%s%s", arg ? "true" : "false", next);
+    std::printf("%s ", arg ? "true" : "false");
 }
 
-template <typename First, typename ...Rest>
-inline void print(First&& first, Rest&&... rest)
+template <typename Last>
+inline void print(Last last)
 {
-    if constexpr (sizeof...(rest) > 1UL)
-    {
-        single_print(std::forward<First>(first), " ");
+    single_print(last); std::printf("\n");
+}
 
-        print(std::forward<Rest>(rest)...);
-    }
-    else
-    {
-        single_print(std::forward<First>(first), "\n");
-    }
+template <typename First, typename Second, typename ...Rest>
+inline void print(First first, Second second, Rest... rest)
+{
+    single_print(first); print(second, rest...);
 }
 
 template <typename ...Args>
