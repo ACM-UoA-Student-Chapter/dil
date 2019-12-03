@@ -4,36 +4,35 @@
 #include <utility>
 #include <cstdio>
 #include <cstdlib>
-#include "panic.hpp"
 
 inline void single_print(const char * arg, const char * next)
 {
-    panic(std::printf("%s%s", arg, next) < 0);
+    std::printf("%s%s", arg, next);
 }
 
 inline void single_print(char arg, const char * next)
 {
-    panic(std::printf("%c%s", arg, next) < 0);
+    std::printf("%c%s", arg, next);
 }
 
 inline void single_print(int arg, const char * next)
 {
-    panic(std::printf("%d%s", arg, next) < 0);
+    std::printf("%d%s", arg, next);
 }
 
 inline void single_print(float arg, const char * next)
 {
-    panic(std::printf("%f%s", arg, next) < 0);
+    std::printf("%f%s", arg, next);
 }
 
 inline void single_print(double arg, const char * next)
 {
-    panic(std::printf("%lf%s", arg, next) < 0);
+    std::printf("%lf%s", arg, next);
 }
 
 inline void single_print(bool arg, const char * next)
 {
-    panic(std::printf("%s%s", arg ? "true" : "false", next) < 0);
+    std::printf("%s%s", arg ? "true" : "false", next);
 }
 
 template <typename First, typename ...Rest>
