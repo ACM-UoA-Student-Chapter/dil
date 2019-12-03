@@ -1,4 +1,5 @@
 #include "int_scan.hpp"
+#include <cassert>
 #include <ctype.h>
 
 static const int OCT = 8;
@@ -80,6 +81,7 @@ static int char_to_dec(char digit, const int num_base) {
     return base10_char_to_dec(digit);
   if (num_base == OCT)
     return base8_char_to_dec(digit);
+  assert(num_base == HEX);
   return base16_char_to_dec(digit);
 }
 
