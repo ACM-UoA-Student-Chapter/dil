@@ -6,6 +6,6 @@
 #define OUT_OF_BOUNDS_ERROR -2;
 #define EMPTY_NUM_EXPR_ERROR -3;
 
-int read_int(const char *input,  int *val);
+int read_int(const char *input, int *val);
 
 #endif
