@@ -73,7 +73,7 @@ Level4Expr = ExpressionTerm, [ ("*" || "/" || "%"), ExpressionTerm, [Level4Expr]
 
 NotExpression = { "!" }, ExpressionTerm;
 
-ArrayLookupExpression = ExpressionTerm, "[", Expression, "]";
+ArrayLookupExpression = ExpressionTerm, "[", ExpressionTerm, "]";
 
 ParenExpression = "(", Expression, ")";
 
