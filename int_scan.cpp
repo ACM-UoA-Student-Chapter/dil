@@ -3,30 +3,42 @@
 #include <ctype.h>
 
 /*
-The function returns a member of the Base enumeration, which represents the base
-of the input string. If the input string starts with the character 0 (zero),
-then the input string represents an octal number. If the input string starts
-with the characters 0x or 0X (zero x/X), then the input string represents a
-hexadecimal number. If the input string does not have one of these prefixes,
-then the input string represents a decimal number. The function starts looking
-for the prefix from the index specified by the position pointer. The function
-also returns the position of the next character of the input to be read after
-the prefix (if it exists).
+The function returns the index of the character after the prefix of the given input.
+Decimal numbers have no prefix.
+Octal numbers have prefix 0.
+Hexadecimal numbers have prefix 0x or 0X.
+
+NOTE:: 0 is a decimal number without prefix.
 */
-static int check_base(const char *input, int *position) {
-  int pos = 0;
-  if (input[pos] != '0') {
-    *position = pos;
-    return 10;
-  }
-  pos++;
-  if (tolower(input[pos]) == 'x') {
-    pos++;
-    *position = pos;
-    return 16;
-  }
-  *position = pos;
-  return 8;
+static int advance(const char *input)
+{
+    if (input[0]!='0' || input[1]=='\0')
+        return 0;
+    else if (tolower(input[1]) != 'x')
+        return 1;
+    else
+        return 2;
+}
+
+/*
+The function returns the base of the input, based on the index of the character after the prefix of the input.
+Decimal numbers have no prefix, so start_pos=0.
+Octal numbers have prefix 0, so start_pos=1.
+Hexadecimal numbers have prefix 0x or 0X, so start_pos=2.
+Any other start_pos is invalid.
+*/
+static int check_base(int start_pos) {
+    switch(start_pos)
+    {
+        case 0:
+            return 10;
+        case 1:
+            return 8;
+        case 2:
+            return 16;
+        default:
+            assert(0);
+    }
 }
 
 /*
@@ -92,10 +104,9 @@ error codes are defined as:
 The success code is INT_SCANNED.
 */
 int read_int(const char *input, int *val) {
-  int position;
-  const int int_base = check_base(input, &position);
-  if (input[position] == '\0' &&
-      int_base != 8) // input string may be the zero literal "0".
+  int position=advance(input);
+  const int int_base = check_base(position);
+  if (input[position] == '\0')
     return EMPTY_NUM_EXPR_ERROR;
   int sum = 0;
   for (int i = position; input[i] != '\0'; i++) {
