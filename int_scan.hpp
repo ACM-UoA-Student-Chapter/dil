@@ -7,5 +7,6 @@
 #define EMPTY_NUM_EXPR_ERROR -3;
 
 int read_int(const char *input, int *val);
+void init_char_to_digit();
 
 #endif

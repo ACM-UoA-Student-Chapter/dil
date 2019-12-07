@@ -1,81 +1,60 @@
 #include "int_scan.hpp"
 #include <cassert>
+#include <cstdint>
 #include <ctype.h>
 
-/*
-The function returns the index of the character after the prefix of the given input.
-Decimal numbers have no prefix.
-Octal numbers have prefix 0.
-Hexadecimal numbers have prefix 0x or 0X.
+int8_t char_to_digit[256];
 
-NOTE:: 0 is a decimal number without prefix.
+/*
+Initialize the char_to_digit array.
+If a character is a number (with an octal, decimal or hexadecimal base), store
+the decimal value of the digit in the char_to_digit array. Else store -1.
 */
-static int advance(const char *input)
-{
-    if (input[0]!='0' || input[1]=='\0')
-        return 0;
-    else if (tolower(input[1]) != 'x')
-        return 1;
+void init_char_to_digit() {
+  for (int c = 0; c < 256; c++) {
+    char lc = tolower(c);
+    if ('0' <= c && c <= '9')
+      char_to_digit[c] = c - '0';
+    else if (lc >= 'a' && lc <= 'f')
+      char_to_digit[c] = lc - 'a' + 10;
     else
-        return 2;
+      char_to_digit[c] = -1;
+  }
 }
 
 /*
-The function returns the base of the input, based on the index of the character after the prefix of the input.
-Decimal numbers have no prefix, so start_pos=0.
+The function returns the index of the character after the prefix of the given
+input. Decimal numbers have no prefix. Octal numbers have prefix 0. Hexadecimal
+numbers have prefix 0x or 0X.
+
+NOTE:: 0 is a decimal number without prefix.
+*/
+static int advance(const char *input) {
+  if (input[0] != '0' || input[1] == '\0')
+    return 0;
+  if (tolower(input[1]) != 'x')
+    return 1;
+  return 2;
+}
+
+/*
+The function returns the base of the input, based on the index of the character
+after the prefix of the input. Decimal numbers have no prefix, so start_pos=0.
 Octal numbers have prefix 0, so start_pos=1.
 Hexadecimal numbers have prefix 0x or 0X, so start_pos=2.
 Any other start_pos is invalid.
 */
 static int check_base(int start_pos) {
-    switch(start_pos)
-    {
-        case 0:
-            return 10;
-        case 1:
-            return 8;
-        case 2:
-            return 16;
-        default:
-            assert(0);
-    }
-}
-
-/*
-The function returns the integer value of the digit character passed as an
-argument. The digit's base is 10. If the digit is out of bounds, the function
-returns -1.
-*/
-static int base10_char_to_dec(char digit) {
-  if ('0' <= digit && digit <= '9')
-    return digit - '0';
-  return -1;
-}
-
-/*
-The function returns the integer value of the digit character passed as an
-argument. The digit's base is 8. If the digit is out of bounds, the function
-returns -1.
-*/
-static int base8_char_to_dec(char digit) {
-  if ('0' <= digit && digit <= '7')
-    return digit - '0';
-  return -1;
-}
-
-/*
-The function returns the integer value of the digit character passed as an
-argument. The digit's base is 16. If the digit is out of bounds, the function
-returns -1. Both uppercase and lowercase letters a-f and A-F are considered to
-be valid.
-*/
-static int base16_char_to_dec(char digit) {
-  if ('0' <= digit && digit <= '9')
-    return digit - '0';
-  char ldigit = tolower(digit);
-  if ('a' <= ldigit && ldigit <= 'f')
-    return 10 + ldigit - 'a';
-  return -1;
+  switch (start_pos) {
+  case 0:
+    return 10;
+  case 1:
+    return 8;
+  case 2:
+    return 16;
+  default:
+    assert(0);
+  }
 }
 
 /*
@@ -85,12 +64,10 @@ num_base argument of the function If the digit is out of bounds, the function
 returns -1.
 */
 static int char_to_dec(char digit, const int num_base) {
-  if (num_base == 10)
-    return base10_char_to_dec(digit);
-  if (num_base == 8)
-    return base8_char_to_dec(digit);
-  assert(num_base == 16);
-  return base16_char_to_dec(digit);
+  int dec_val = char_to_digit[digit];
+  if (dec_val < 0 || dec_val >= num_base)
+    return -1;
+  return dec_val;
 }
 
 /*
@@ -104,7 +81,7 @@ error codes are defined as:
 The success code is INT_SCANNED.
 */
 int read_int(const char *input, int *val) {
-  int position=advance(input);
+  int position = advance(input);
   const int int_base = check_base(position);
   if (input[position] == '\0')
     return EMPTY_NUM_EXPR_ERROR;
