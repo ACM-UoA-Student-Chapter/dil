@@ -1,3 +1,10 @@
+(*
+* Copyright: Copyright Ioannis Cheilaris 2019.
+* License:   $(LINK2 http://www.boost.org/LICENSE_1_0.txt, Boost License 1.0)
+* Authors:   Ioannis Cheilaris, Stefanos Baziotis
+*)
+
+
 Module = {Declaration}, ? EOI ? ;
 
 Declaration = StructDecl | FunctionDef;
@@ -25,7 +32,7 @@ Statement = "{", {Statement}, "}"
           | "return", [Expression], ";";
 
 
-/*
+(*
   Note that we only need to support Identifier.Identifier and not an arbitrary
   number of .field, like a.b.c = 2 or a    .b.c.d = 2; That is because structs
   and arrays are always references, i.e. pointers. So, the above can be achieved
@@ -35,36 +42,47 @@ Statement = "{", {Statement}, "}"
   because we can achieve that as:
   Arr arr = a.b;  // arr is a pointer under the hood - any change to its
   elements will be reflected to a.b arr = a.b;
-*/
+*)
+
 LValue = Identifier, [ ".", Identifier ];
 
-Expression = ExpressionTerm 
-           | ParenthesisExpression
-           | FunctionCall
+Expression = FunctionCall
            | NotExpression
            | ArrayLookupExpression
-           | BinaryExpression
-
-BinOp = "+" | "-" | "*" | "/" | "%" | "&&" | "||" | "<" | "=<"| ">" | ">="| "=="| "!=";
-
-ParenthesisExpression = "(", Expression, ")";
+           | BinaryExpression;
 
 FunctionCall = Identifier, "(", FuncCallArgList, ")";
 
 FuncCallArgList = [ Expression, {",", Expression} ];
 
+(*
+  Expression precedence is simulated by using levels.
+  The higher the level, the bigger the precedence.
+*)
 
-BinaryExpression = ExpressionTerm, BinOp, ExpressionTerm;
+BinaryExpression = Level1Expr, [ "&&", Level1Expr, [BinaryExpression]];
 
-NotExpression = "!", Expression;
+Level1Expr = Level2Expr, [ "||", Level2Expr, [Level1Expr]];
 
-ArrayLookupExpression = ExpressionTerm, "[", ExpressionTerm, "]";
+Level2Expr = Level3Expr, [ ( "<" || "<=" || ">" || ">=" || "==" || "!="), Level3Expr, [Level2Expr] ];
+
+Level3Expr = Level4Expr, [ ("+" || "-"), Level4Expr, [Level3Expr]];
+
+Level4Expr = ExpressionTerm, [ ("*" || "/" || "%"), ExpressionTerm, [Level4Expr]];
+
+
+NotExpression = { "!" }, ExpressionTerm;
+
+ArrayLookupExpression = ExpressionTerm, "[", Expression, "]";
+
+ParenExpression = "(", Expression, ")";
 
 ExpressionTerm = Integer
-               | Identifier 
+               | LValue 
                | "true" 
                | "false" 
-               | "new", "int", "[", Expression,"]";
+               | "new", "int", "[", Expression,"]"
+               | ParenExpr;
 
 
 Type = "int"
