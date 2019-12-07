@@ -2,10 +2,6 @@
 #include <cassert>
 #include <ctype.h>
 
-static const int OCT = 8;
-static const int DEC = 10;
-static const int HEX = 16;
-
 /*
 The function returns a member of the Base enumeration, which represents the base
 of the input string. If the input string starts with the character 0 (zero),
@@ -21,16 +17,16 @@ static int check_base(const char *input, int *position) {
   int pos = 0;
   if (input[pos] != '0') {
     *position = pos;
-    return DEC;
+    return 10;
   }
   pos++;
   if (tolower(input[pos]) == 'x') {
     pos++;
     *position = pos;
-    return HEX;
+    return 16;
   }
   *position = pos;
-  return OCT;
+  return 8;
 }
 
 /*
@@ -77,11 +73,11 @@ num_base argument of the function If the digit is out of bounds, the function
 returns -1.
 */
 static int char_to_dec(char digit, const int num_base) {
-  if (num_base == DEC)
+  if (num_base == 10)
     return base10_char_to_dec(digit);
-  if (num_base == OCT)
+  if (num_base == 8)
     return base8_char_to_dec(digit);
-  assert(num_base == HEX);
+  assert(num_base == 16);
   return base16_char_to_dec(digit);
 }
 
@@ -99,7 +95,7 @@ int read_int(const char *input, int *val) {
   int position;
   const int int_base = check_base(input, &position);
   if (input[position] == '\0' &&
-      int_base != OCT) // input string may be the zero literal "0".
+      int_base != 8) // input string may be the zero literal "0".
     return EMPTY_NUM_EXPR_ERROR;
   int sum = 0;
   for (int i = position; input[i] != '\0'; i++) {
