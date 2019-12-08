@@ -1,3 +1,9 @@
+/*
+* Copyright: Copyright nsoul97 (Soulounias Nikolaos) 2019.
+* License:   $(LINK2 http://www.boost.org/LICENSE_1_0.txt, Boost License 1.0)
+* Authors:   nsoul97 (Soulounias Nikolaos)
+*/
+
 #ifndef __INT_SCAN_HPP
 #define __INT_SCAN_HPP
 
