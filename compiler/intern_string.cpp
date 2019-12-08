@@ -3,13 +3,15 @@
 #include <assert.h>
 
 /*
-* intern_string is a function which helps keeping only one copy in memory of each 
-* specific string.
-* intern_string parametre is the string we want to store
-* intern_string return value is a pointer
-* if we have already used the specific string the function returns the old pointer
-* if its a new string we allocate memory and return the new pointer
-*/
+ * This function ensures that only one copy of every string is kept in memory. We pass it a string to
+ * be saved. If the string is already saved, we return the old pointer.
+ * Otherwise, we save it and return the new pointer. This is called interning a
+ * string.
+ * Params:
+ *    string = The string to be interned.
+ * Returns:
+ *    A read-only pointer to a copy of `string`.
+ */
 
 struct InternedStr {
   char *str;
