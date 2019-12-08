@@ -29,7 +29,7 @@ numbers have prefix 0x or 0X.
 
 NOTE:: 0 is a decimal number without prefix.
 */
-static int advance(const char *input) {
+static int skip_prefix(const char *input) {
   if (input[0] != '0' || input[1] == '\0')
     return 0;
   if (tolower(input[1]) != 'x')
@@ -44,7 +44,7 @@ Octal numbers have prefix 0, so start_pos=1.
 Hexadecimal numbers have prefix 0x or 0X, so start_pos=2.
 Any other start_pos is invalid.
 */
-static int check_base(int start_pos) {
+static int find_base(int start_pos) {
   switch (start_pos) {
   case 0:
     return 10;
@@ -81,8 +81,8 @@ error codes are defined as:
 The success code is INT_SCANNED.
 */
 int read_int(const char *input, int *val) {
-  int position = advance(input);
-  const int int_base = check_base(position);
+  int position = skip_prefix(input);
+  const int int_base = find_base(position);
   if (input[position] == '\0')
     return EMPTY_NUM_EXPR_ERROR;
   int sum = 0;

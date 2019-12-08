@@ -36,7 +36,8 @@ static void assert_overflow(const char *input) {
   int value;
   int error_code = read_int(input, &value);
   assert(error_code == OVERFLOW_ERROR);
-  printf("SUCCESS: read_int(\"%s\",&value) returns overflow error code.\n", input);
+  printf("SUCCESS: read_int(\"%s\",&value) returns overflow error code.\n",
+         input);
 }
 
 /*
@@ -48,8 +49,9 @@ static void assert_success(const char *input, int expected_val) {
   int error_code = read_int(input, &value);
   assert(error_code == INT_SCANNED);
   assert(value == expected_val);
-  printf("SUCCESS: read_int(\"%s\",&value) returns success code with value=%d.\n",
-         input, expected_val);
+  printf(
+      "SUCCESS: read_int(\"%s\",&value) returns success code with value=%d.\n",
+      input, expected_val);
 }
 
 int main(void) {
