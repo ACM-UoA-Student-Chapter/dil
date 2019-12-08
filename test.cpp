@@ -11,7 +11,7 @@ static void assert_empty(const char *input) {
   int value;
   int error_code = read_int(input, &value);
   assert(error_code == EMPTY_NUM_EXPR_ERROR);
-  printf("SUCCESS: read_int(%s,&value) returns empty numerical expression "
+  printf("SUCCESS: read_int(\"%s\",&value) returns empty numerical expression "
          "error code.\n",
          input);
 }
@@ -24,7 +24,7 @@ static void assert_out_of_bounds(const char *input) {
   int value;
   int error_code = read_int(input, &value);
   assert(error_code == OUT_OF_BOUNDS_ERROR);
-  printf("SUCCESS: read_int(%s,&value) returns out of bounds error code.\n",
+  printf("SUCCESS: read_int(\"%s\",&value) returns out of bounds error code.\n",
          input);
 }
 
@@ -36,7 +36,7 @@ static void assert_overflow(const char *input) {
   int value;
   int error_code = read_int(input, &value);
   assert(error_code == OVERFLOW_ERROR);
-  printf("SUCCESS: read_int(%s,&value) returns overflow error code.\n", input);
+  printf("SUCCESS: read_int(\"%s\",&value) returns overflow error code.\n", input);
 }
 
 /*
@@ -48,7 +48,7 @@ static void assert_success(const char *input, int expected_val) {
   int error_code = read_int(input, &value);
   assert(error_code == INT_SCANNED);
   assert(value == expected_val);
-  printf("SUCCESS: read_int(%s,&value) returns success code with value=%d.\n",
+  printf("SUCCESS: read_int(\"%s\",&value) returns success code with value=%d.\n",
          input, expected_val);
 }
 
