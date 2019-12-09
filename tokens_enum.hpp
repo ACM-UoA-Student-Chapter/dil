@@ -14,40 +14,40 @@ Therefore to use an enumerator name we have to use the scope resolution
 operator. e.g. TOK::UNDEFINED
 */
 enum class TOK {
-  UNDEFINED,   // token of undefined kind (i.e. error)
-  EOI,         // end of input
-  INT_LIT,     // integer literal
-  INT,         // int keyword
-  BOOL,        // bool keyword
-  FUNC,        // func keyword
-  RETURN,      // return keyword
-  IF,          // if keyword
-  WHILE,       // while keyword
-  FALSE,       // false keyword
-  TRUE,        // true keyword
-  NEW,         // new keyword
-  PLUS,        // + operator
-  MINUS,       // - operator
-  MUL,         // * operator
-  DIV,         // / operator
-  MOD,         // % operator
-  ASSIGN,      // = operator
-  EQ,          // == operator
-  NEQ,         // != operator
-  GT,          // > operator
-  GEQ,         // >= operator
-  LT,          // < operator
-  LEQ,         // <= operator
-  COLON,       // : token
-  COMMA,       // , token
-  ID,          // function (e.g. quicksort) or variable (e.g. len) identifiers
-  LBRACKET,    // [ token
-  RBRACKET,    // ] token
-  LPAR,        // ( token
-  RPAR,        // ) token
-  LBRACE,      // { token
-  RBRACE,      // } token
-  SEMICOLON    // ; token
+  UNDEFINED, // token of undefined kind (i.e. error)
+  EOI,       // end of input
+  INT_LIT,   // integer literal
+  INT,       // int keyword
+  BOOL,      // bool keyword
+  FUNC,      // func keyword
+  RETURN,    // return keyword
+  IF,        // if keyword
+  WHILE,     // while keyword
+  FALSE,     // false keyword
+  TRUE,      // true keyword
+  NEW,       // new keyword
+  PLUS,      // + operator
+  MINUS,     // - operator
+  MUL,       // * operator
+  DIV,       // / operator
+  MOD,       // % operator
+  ASSIGN,    // = operator
+  EQ,        // == operator
+  NEQ,       // != operator
+  GT,        // > operator
+  GEQ,       // >= operator
+  LT,        // < operator
+  LEQ,       // <= operator
+  COLON,     // : token
+  COMMA,     // , token
+  ID,        // function (e.g. quicksort) or variable (e.g. len) identifiers
+  LBRACKET,  // [ token
+  RBRACKET,  // ] token
+  LPAR,      // ( token
+  RPAR,      // ) token
+  LBRACE,    // { token
+  RBRACE,    // } token
+  SEMICOLON  // ; token
 };
 
 #endif
