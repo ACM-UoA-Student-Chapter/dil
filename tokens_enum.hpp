@@ -18,10 +18,12 @@ enum class TOK {
   EOI,       // end of input
   INT_LIT,   // integer literal
   INT,       // int keyword
+  STRUCT,    // struct keyword
   BOOL,      // bool keyword
   FUNC,      // func keyword
   RETURN,    // return keyword
   IF,        // if keyword
+  ELSE,      // else keyword
   WHILE,     // while keyword
   FALSE,     // false keyword
   TRUE,      // true keyword
@@ -38,6 +40,9 @@ enum class TOK {
   GEQ,       // >= operator
   LT,        // < operator
   LEQ,       // <= operator
+  NOT,       // ! operator
+  AND_AND,   // && operator
+  OR_OR,     // || operator
   COLON,     // : token
   COMMA,     // , token
   ID,        // function (e.g. quicksort) or variable (e.g. len) identifiers
@@ -47,6 +52,7 @@ enum class TOK {
   RPAR,      // ) token
   LBRACE,    // { token
   RBRACE,    // } token
+  DOT,       // . token
   SEMICOLON  // ; token
 };
 
