@@ -17,10 +17,9 @@ enum class TOK {
   UNDEFINED,   // token of undefined kind (i.e. error)
   EOI,         // end of input
   INT_LIT,     // integer literal
-  MAIN,        // main keyword
   INT,         // int keyword
   BOOL,        // bool keyword
-  FUNCTION,    // func keyword
+  FUNC,        // func keyword
   RETURN,      // return keyword
   IF,          // if keyword
   WHILE,       // while keyword
@@ -29,25 +28,25 @@ enum class TOK {
   NEW,         // new keyword
   PLUS,        // + operator
   MINUS,       // - operator
-  MULT,        // * operator
+  MUL,         // * operator
   DIV,         // / operator
   MOD,         // % operator
   ASSIGN,      // = operator
-  EQUAL,       // == operator
-  UNEQUAL,     // != operator
-  GREATER,     // > operator
-  GREQ,        // >= operator
-  LESS,        // < operator
+  EQ,          // == operator
+  NEQ,         // != operator
+  GT,          // > operator
+  GEQ,         // >= operator
+  LT,          // < operator
   LEQ,         // <= operator
   COLON,       // : token
   COMMA,       // , token
   ID,          // function (e.g. quicksort) or variable (e.g. len) identifiers
-  START_ARRAY, // [ token
-  END_ARRAY,   // ] token
-  START_PAREN, // ( token
-  END_PAREN,   // ) token
-  START_SCOPE, // { token
-  END_SCOPE,   // } token
+  LBRACKET,    // [ token
+  RBRACKET,    // ] token
+  LPAR,        // ( token
+  RPAR,        // ) token
+  LBRACE,      // { token
+  RBRACE,      // } token
   SEMICOLON    // ; token
 };
 
