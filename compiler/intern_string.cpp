@@ -1,6 +1,19 @@
+/*
+* Copyright: Copyright J1635 (Orestis Giannoukos) 2019.
+* License:   $(LINK2 http://www.boost.org/LICENSE_1_0.txt, Boost License 1.0)
+* Authors:   J1635 (Orestis Giannoukos)
+*/
+
 #include <string>
 #include <vector>
 #include <assert.h>
+
+struct InternedStr {
+  char *str;
+  size_t len;
+};
+
+std::vector<InternedStr> old_strings;
 
 /*
  * This function ensures that only one copy of every string is kept in memory. We pass it a string to
@@ -12,14 +25,6 @@
  * Returns:
  *    A read-only pointer to a copy of `string`.
  */
-
-struct InternedStr {
-  char *str;
-  size_t len;
-};
-
-std::vector<InternedStr> old_strings;
-
 const char *intern_string(const char *string) {
   if (string == NULL) return NULL;
 
