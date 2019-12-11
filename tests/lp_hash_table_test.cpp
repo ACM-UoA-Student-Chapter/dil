@@ -1,3 +1,8 @@
+/*
+* Copyright: Copyright Spyros Trifonidis (@spytfyre) 2019.
+* License:   $(LINK2 http://www.boost.org/LICENSE_1_0.txt, Boost License 1.0)
+* Authors:   Spyros Trifonidis (@spytfyre)
+*/
 #include "./lp_hash_table_test.h"
 #include "lp_hash_table.h"
 #include <assert.h>
