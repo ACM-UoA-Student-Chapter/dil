@@ -30,6 +30,12 @@
  * Search: O(1) amortized.
  */
 template <typename T> struct LpHashTable {
+  /*
+   * The map is implemented as a linear probing hash table. Keys are hashed by their
+   * pointer and are inserted into the table at the first empty spot (found linearly)
+   * in case the spot is taken. Find is implemented in a similar fashion. Delete is
+   * not implemented as we have no need for it.
+   */
   static const bool is_pointer = std::is_pointer<T>::value;
   static const bool is_function_pointer =
       is_pointer
