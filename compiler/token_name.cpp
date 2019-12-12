@@ -14,6 +14,8 @@ which is passed as argument.
 */
 const char *token_name(TOK kind) {
   switch (kind) {
+  case TOK::UNDEFINED:
+    return "undefined";
   case TOK::EOI:
     return "end of input";
   case TOK::INT_LIT:
