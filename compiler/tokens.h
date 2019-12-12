@@ -56,4 +56,6 @@ enum class TOK {
   SEMICOLON  // ; token
 };
 
+const char *token_name(TOK kind);
+
 #endif
