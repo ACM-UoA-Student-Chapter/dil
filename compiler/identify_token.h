@@ -7,6 +7,12 @@
 #ifndef __IDENTIFY_TOKEN_H
 #define __IDENTIFY_TOKEN_H
 
+#include "tokens.h"
+
+struct Token {
+  TOK kind;
+};
+
 void init_isIdChar();
 void identify_token(const char *input);
 
