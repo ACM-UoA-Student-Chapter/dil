@@ -60,8 +60,8 @@ int main(void) {
 
   test(" int x;", TOK::INT);
   test("\t+10;", TOK::PLUS);
-  test("\nbool b;",TOK::BOOL);
-  test("\t\n\t\t   while (true) ",TOK::WHILE);
+  test("\nbool b;", TOK::BOOL);
+  test("\t\n\t\t   while (true) ", TOK::WHILE);
 
   test("== 10", TOK::EQ);
   test("==10", TOK::EQ);
