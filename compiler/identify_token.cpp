@@ -28,9 +28,10 @@ void init_isIdChar() {
 }
 
 /*
-The function prints the fist token found in the input string, if that token is a
-keyword or a special character. If an integer literal or an identifier is
-encoutered, a "Not a keyword token" message is printed .
+The function sets the kind member of the global variable token to the fist token
+found in the input string, if that token is a keyword or a special character.
+If a blank character, an integer literal, an identifier or a non-DIL string is
+encoutered, kind is set to UNDEFINED.
 */
 void identify_token(const char *input) {
   switch (input[0]) {
