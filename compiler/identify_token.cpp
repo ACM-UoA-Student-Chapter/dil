@@ -4,10 +4,10 @@
  * Authors:   nsoul97 (Soulounias Nikolaos)
  */
 
-#include <cstdint>
-#include <ctype.h>
 #include "identify_token.h"
 #include "tokens.h"
+#include <cstdint>
+#include <ctype.h>
 
 Token token;
 
@@ -37,161 +37,161 @@ void identify_token(const char *input) {
   case 'b':
     if (input[1] == 'o' && input[2] == 'o' && input[3] == 'l' &&
         !isIdChar[input[4]]) {
-      token.kind=TOK::BOOL;
+      token.kind = TOK::BOOL;
       return;
     }
     break;
   case 'e':
     if (input[1] == 'l' && input[2] == 's' && input[3] == 'e' &&
         !isIdChar[input[4]]) {
-      token.kind=TOK::ELSE;
+      token.kind = TOK::ELSE;
       return;
     }
     break;
   case 'f':
     if (input[1] == 'a' && input[2] == 'l' && input[3] == 's' &&
         input[4] == 'e' && !isIdChar[input[5]]) {
-      token.kind=TOK::FALSE;
+      token.kind = TOK::FALSE;
       return;
     }
     if (input[1] == 'u' && input[2] == 'n' && input[3] == 'c' &&
         !isIdChar[input[4]]) {
-      token.kind=TOK::FUNC;
+      token.kind = TOK::FUNC;
       return;
     }
     break;
   case 'i':
     if (input[1] == 'f' && !isIdChar[input[2]]) {
-      token.kind=TOK::IF;
+      token.kind = TOK::IF;
       return;
     }
     if (input[1] == 'n' && input[2] == 't' && !isIdChar[input[3]]) {
-      token.kind=TOK::INT;
+      token.kind = TOK::INT;
       return;
     }
     break;
   case 'n':
     if (input[1] == 'e' && input[2] == 'w' && !isIdChar[input[3]]) {
-      token.kind=TOK::NEW;
+      token.kind = TOK::NEW;
       return;
     }
     break;
   case 'r':
     if (input[1] == 'e' && input[2] == 't' && input[3] == 'u' &&
         input[4] == 'r' && input[5] == 'n' && !isIdChar[input[6]]) {
-      token.kind=TOK::RETURN;
+      token.kind = TOK::RETURN;
       return;
     }
     break;
   case 's':
     if (input[1] == 't' && input[2] == 'r' && input[3] == 'u' &&
         input[4] == 'c' && input[5] == 't' && !isIdChar[input[6]]) {
-      token.kind=TOK::STRUCT;
+      token.kind = TOK::STRUCT;
       return;
     }
     break;
   case 't':
     if (input[1] == 'r' && input[2] == 'u' && input[3] == 'e' &&
         !isIdChar[input[4]]) {
-      token.kind=TOK::TRUE;
+      token.kind = TOK::TRUE;
       return;
     }
     break;
   case 'w':
     if (input[1] == 'h' && input[2] == 'i' && input[3] == 'l' &&
         input[4] == 'e' && !isIdChar[input[5]]) {
-      token.kind=TOK::WHILE;
+      token.kind = TOK::WHILE;
       return;
     }
     break;
   case '=':
     if (input[1] == '=') {
-      token.kind=TOK::EQ;
+      token.kind = TOK::EQ;
       return;
     }
-    token.kind=TOK::ASSIGN;
+    token.kind = TOK::ASSIGN;
     return;
   case '!':
     if (input[1] == '=') {
-      token.kind=TOK::NEQ;
+      token.kind = TOK::NEQ;
       return;
     }
-    token.kind=TOK::NOT;
+    token.kind = TOK::NOT;
     return;
   case '>':
     if (input[1] == '=') {
-      token.kind=TOK::GEQ;
+      token.kind = TOK::GEQ;
       return;
     }
-    token.kind=TOK::GT;
+    token.kind = TOK::GT;
     return;
   case '<':
     if (input[1] == '=') {
-      token.kind=TOK::LEQ;
+      token.kind = TOK::LEQ;
       return;
     }
-    token.kind=TOK::LT;
+    token.kind = TOK::LT;
     return;
   case '&':
     if (input[1] == '&') {
-      token.kind=TOK::AND_AND;
+      token.kind = TOK::AND_AND;
       return;
     }
     break;
   case '|':
     if (input[1] == '|') {
-      token.kind=TOK::OR_OR;
+      token.kind = TOK::OR_OR;
       return;
     }
     break;
   case '+':
-    token.kind=TOK::PLUS;
+    token.kind = TOK::PLUS;
     return;
   case '-':
-    token.kind=TOK::MINUS;
+    token.kind = TOK::MINUS;
     return;
   case '*':
-    token.kind=TOK::MUL;
+    token.kind = TOK::MUL;
     return;
   case '/':
-    token.kind=TOK::DIV;
+    token.kind = TOK::DIV;
     return;
   case '%':
-    token.kind=TOK::MOD;
+    token.kind = TOK::MOD;
     return;
   case ':':
-    token.kind=TOK::COLON;
+    token.kind = TOK::COLON;
     return;
   case ',':
-    token.kind=TOK::COMMA;
+    token.kind = TOK::COMMA;
     return;
   case '[':
-    token.kind=TOK::LBRACKET;
+    token.kind = TOK::LBRACKET;
     return;
   case ']':
-    token.kind=TOK::RBRACKET;
+    token.kind = TOK::RBRACKET;
     return;
   case '(':
-    token.kind=TOK::LPAR;
+    token.kind = TOK::LPAR;
     return;
   case ')':
-    token.kind=TOK::RPAR;
+    token.kind = TOK::RPAR;
     return;
   case '{':
-    token.kind=TOK::LBRACE;
+    token.kind = TOK::LBRACE;
     return;
   case '}':
-    token.kind=TOK::RBRACE;
+    token.kind = TOK::RBRACE;
     return;
   case '.':
-    token.kind=TOK::DOT;
+    token.kind = TOK::DOT;
     return;
   case ';':
-    token.kind=TOK::SEMICOLON;
+    token.kind = TOK::SEMICOLON;
     return;
   case '\0':
-    token.kind=TOK::EOI;
+    token.kind = TOK::EOI;
     return;
   }
-  token.kind=TOK::UNDEFINED;
+  token.kind = TOK::UNDEFINED;
 }
