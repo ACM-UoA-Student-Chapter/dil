@@ -38,6 +38,7 @@ identify_token function.
 */
 int main(void) {
   init_isIdChar();
+  init_isBlankChar();
 
   test("", TOK::EOI);
   test("int i;", TOK::INT);
@@ -56,7 +57,11 @@ int main(void) {
   test("var_name", TOK::UNDEFINED);
   test("intvar", TOK::UNDEFINED);
   test("function", TOK::UNDEFINED);
-  test(" int x;", TOK::UNDEFINED);
+
+  test(" int x;", TOK::INT);
+  test("\t+10;", TOK::PLUS);
+  test("\nbool b;",TOK::BOOL);
+  test("\t\n\t\t   while (true) ",TOK::WHILE);
 
   test("== 10", TOK::EQ);
   test("==10", TOK::EQ);
