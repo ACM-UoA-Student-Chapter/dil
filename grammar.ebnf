@@ -46,44 +46,39 @@ Statement = "{", {Statement}, "}"
 
 LValue = Identifier, [ ".", Identifier ];
 
-Expression = FunctionCall
-           | NotExpression
-           | ArrayLookupExpression
-           | BinaryExpression;
-
 FunctionCall = Identifier, "(", FuncCallArgList, ")";
 
 FuncCallArgList = [ Expression, {",", Expression} ];
 
-(*
-  Expression precedence is simulated by using levels.
-  The higher the level, the bigger the precedence.
-*)
 
-BinaryExpression = Level1Expr, [ "&&", Level1Expr, [BinaryExpression]];
+Expression = OrExpr, { "&&", OrExpr };
 
-Level1Expr = Level2Expr, [ "||", Level2Expr, [Level1Expr]];
+OrExpr = CmpExpr, { "||", CmpExpr };
 
-Level2Expr = Level3Expr, [ ( "<" || "<=" || ">" || ">=" || "==" || "!="), Level3Expr, [Level2Expr] ];
+CmpExpr = PlusMinusExpr, { ( "<" || "<=" || ">" || ">=" || "==" || "!="), PlusMinusExpr };
 
-Level3Expr = Level4Expr, [ ("+" || "-"), Level4Expr, [Level3Expr]];
+PlusMinusExpr = MultDivModExpr, { ("+" || "-"), MultDivModExpr };
 
-Level4Expr = ExpressionTerm, [ ("*" || "/" || "%"), ExpressionTerm, [Level4Expr]];
-
+MultDivModExpr = NotExpression, { ("*" || "/" || "%"), NotExpression };
 
 NotExpression = { "!" }, ExpressionTerm;
 
-ArrayLookupExpression = ExpressionTerm, "[", ExpressionTerm, "]";
-
-ParenExpression = "(", Expression, ")";
-
-ExpressionTerm = Integer
-               | LValue 
+(*
+  Array lookup, lvalue and function call make this grammar ll(2) due to the way they are written.
+*)
+ExpressionTerm = Integer 
                | "true" 
                | "false" 
                | "new", "int", "[", Expression,"]"
+               | ArrayLookupExpression
+               | LValue
+               | FunctionCall
                | ParenExpr;
 
+
+ArrayLookupExpression = Identifier, "[", Expression, "]";
+
+ParenExpression = "(", Expression, ")";
 
 Type = "int"
      | "int", "[", "]"
