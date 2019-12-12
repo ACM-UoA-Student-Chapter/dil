@@ -15,5 +15,6 @@ struct Token {
 
 void init_isIdChar();
 void identify_token(const char *input);
+void init_isBlankChar();
 
 #endif
