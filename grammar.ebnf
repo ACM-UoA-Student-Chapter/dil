@@ -9,14 +9,15 @@ Module = {Declaration}, ? EOI ? ;
 
 Declaration = StructDecl | FunctionDef;
 
-FunctionDef = "func", Identifier, "(", FuncDefParamList, ")", [":", Type] "{", {Statement},
-    "}";
+FunctionDef = "func", Identifier, "(", FuncDefParamList, ")", [":", Type] "{", {VarDecleration}, {Statement}, "}";
 
 FuncDefParamList = [ ParamSet, {",", ParamSet} ];
 
 ParamSet = ParamIdentifierList, ":", Type;
 
 ParamIdentifierList = Identifier, {",", Identifier};
+
+VarDecleration = Type, Identifier, ["=", Expression], ";";
 
 StructDecl = "struct", Identifier, "{", {StructField}, "}";
 
