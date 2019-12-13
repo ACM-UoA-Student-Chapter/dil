@@ -27,7 +27,7 @@ because for example 4 is both octal and decimal,
 so it's  CM_DIL_CHAR | CM_DECIMAL | CM_OCTAL
 */
 // CM for 'C'haracter 'M'ap. This way we avoid namespaces.
-enum CMType {
+enum CM_TYPE {
   CM_NO_PROPERTY = 0,
   CM_DIL_CHAR = 1,        // character allowed in DIL
   CM_BLANK = 1 << 2,      // space, new-line or tab
