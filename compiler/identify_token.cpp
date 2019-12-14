@@ -46,122 +46,115 @@ If a blank character, an integer literal, an identifier or a non-DIL string is
 encoutered, kind is set to UNDEFINED.
 */
 void identify_token(const char *input) {
-  int ind = 0;
-  while (isBlankChar[input[ind]])
-    ind++;
-  switch (input[ind]) {
+  while (isBlankChar[input[0]])
+    input++;
+  switch (input[0]) {
   case 'b':
-    if (input[ind + 1] == 'o' && input[ind + 2] == 'o' &&
-        input[ind + 3] == 'l' && !isIdChar[input[ind + 4]]) {
+    if (input[1] == 'o' && input[2] == 'o' && input[3] == 'l' &&
+        !isIdChar[input[4]]) {
       token.kind = TOK::BOOL;
       return;
     }
     break;
   case 'e':
-    if (input[ind + 1] == 'l' && input[ind + 2] == 's' &&
-        input[ind + 3] == 'e' && !isIdChar[input[ind + 4]]) {
+    if (input[1] == 'l' && input[2] == 's' && input[3] == 'e' &&
+        !isIdChar[input[4]]) {
       token.kind = TOK::ELSE;
       return;
     }
     break;
   case 'f':
-    if (input[ind + 1] == 'a' && input[ind + 2] == 'l' &&
-        input[ind + 3] == 's' && input[ind + 4] == 'e' &&
-        !isIdChar[input[ind + 5]]) {
+    if (input[1] == 'a' && input[2] == 'l' && input[3] == 's' &&
+        input[4] == 'e' && !isIdChar[input[5]]) {
       token.kind = TOK::FALSE;
       return;
     }
-    if (input[ind + 1] == 'u' && input[ind + 2] == 'n' &&
-        input[ind + 3] == 'c' && !isIdChar[input[ind + 4]]) {
+    if (input[1] == 'u' && input[2] == 'n' && input[3] == 'c' &&
+        !isIdChar[input[4]]) {
       token.kind = TOK::FUNC;
       return;
     }
     break;
   case 'i':
-    if (input[ind + 1] == 'f' && !isIdChar[input[ind + 2]]) {
+    if (input[1] == 'f' && !isIdChar[input[2]]) {
       token.kind = TOK::IF;
       return;
     }
-    if (input[ind + 1] == 'n' && input[ind + 2] == 't' &&
-        !isIdChar[input[ind + 3]]) {
+    if (input[1] == 'n' && input[2] == 't' && !isIdChar[input[3]]) {
       token.kind = TOK::INT;
       return;
     }
     break;
   case 'n':
-    if (input[ind + 1] == 'e' && input[ind + 2] == 'w' &&
-        !isIdChar[input[ind + 3]]) {
+    if (input[1] == 'e' && input[2] == 'w' && !isIdChar[input[3]]) {
       token.kind = TOK::NEW;
       return;
     }
     break;
   case 'r':
-    if (input[ind + 1] == 'e' && input[ind + 2] == 't' &&
-        input[ind + 3] == 'u' && input[ind + 4] == 'r' &&
-        input[ind + 5] == 'n' && !isIdChar[input[ind + 6]]) {
+    if (input[1] == 'e' && input[2] == 't' && input[3] == 'u' &&
+        input[4] == 'r' && input[5] == 'n' && !isIdChar[input[6]]) {
       token.kind = TOK::RETURN;
       return;
     }
     break;
   case 's':
-    if (input[ind + 1] == 't' && input[ind + 2] == 'r' &&
-        input[ind + 3] == 'u' && input[ind + 4] == 'c' &&
-        input[ind + 5] == 't' && !isIdChar[input[ind + 6]]) {
+    if (input[1] == 't' && input[2] == 'r' && input[3] == 'u' &&
+        input[4] == 'c' && input[5] == 't' && !isIdChar[input[6]]) {
       token.kind = TOK::STRUCT;
       return;
     }
     break;
   case 't':
-    if (input[ind + 1] == 'r' && input[ind + 2] == 'u' &&
-        input[ind + 3] == 'e' && !isIdChar[input[ind + 4]]) {
+    if (input[1] == 'r' && input[2] == 'u' && input[3] == 'e' &&
+        !isIdChar[input[4]]) {
       token.kind = TOK::TRUE;
       return;
     }
     break;
   case 'w':
-    if (input[ind + 1] == 'h' && input[ind + 2] == 'i' &&
-        input[ind + 3] == 'l' && input[ind + 4] == 'e' &&
-        !isIdChar[input[ind + 5]]) {
+    if (input[1] == 'h' && input[2] == 'i' && input[3] == 'l' &&
+        input[4] == 'e' && !isIdChar[input[5]]) {
       token.kind = TOK::WHILE;
       return;
     }
     break;
   case '=':
-    if (input[ind + 1] == '=') {
+    if (input[1] == '=') {
       token.kind = TOK::EQ;
       return;
     }
     token.kind = TOK::ASSIGN;
     return;
   case '!':
-    if (input[ind + 1] == '=') {
+    if (input[1] == '=') {
       token.kind = TOK::NEQ;
       return;
     }
     token.kind = TOK::NOT;
     return;
   case '>':
-    if (input[ind + 1] == '=') {
+    if (input[1] == '=') {
       token.kind = TOK::GEQ;
       return;
     }
     token.kind = TOK::GT;
     return;
   case '<':
-    if (input[ind + 1] == '=') {
+    if (input[1] == '=') {
       token.kind = TOK::LEQ;
       return;
     }
     token.kind = TOK::LT;
     return;
   case '&':
-    if (input[ind + 1] == '&') {
+    if (input[1] == '&') {
       token.kind = TOK::AND_AND;
       return;
     }
     break;
   case '|':
-    if (input[ind + 1] == '|') {
+    if (input[1] == '|') {
       token.kind = TOK::OR_OR;
       return;
     }
