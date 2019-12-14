@@ -53,10 +53,10 @@ void initialize_map() {
   ch_map['\n'] &= ~CM_DIL_CHAR; // this one isn't
 
   // characters allowed in identifiers
-  for (int i = '0'; i != '9' + 1; ++i)
+  for (int i = '0'; i <= '9'; ++i)
     ch_map[i] |= CM_IDENTIFIER;
 
-  for (int i = 'a'; i != 'z' + 1; ++i) {
+  for (int i = 'a'; i <= 'z'; ++i) {
     ch_map[i] |= CM_IDENTIFIER;
     ch_map[toupper(i)] |= CM_IDENTIFIER;
   }
@@ -67,13 +67,13 @@ void initialize_map() {
   ch_map['\t'] |= CM_BLANK;
 
   // numericals
-  for (int i = '0'; i != '7' + 1; ++i)
+  for (int i = '0'; i <= '7'; ++i)
     ch_map[i] |= CM_OCTAL | CM_DECIMAL | CM_HEXADECIMAL;
 
-  for (int i = '8'; i != '9' + 1; ++i)
+  for (int i = '8'; i <= '9'; ++i)
     ch_map[i] |= CM_DECIMAL | CM_HEXADECIMAL;
 
-  for (int i = 'a'; i != 'f' + 1; ++i) {
+  for (int i = 'a'; i <= 'f'; ++i) {
     ch_map[i] |= CM_HEXADECIMAL;
     ch_map[toupper(i)] |= CM_HEXADECIMAL;
   }
