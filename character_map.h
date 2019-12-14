@@ -26,15 +26,14 @@ ch_map[c] & CM_DECIMAL
 because for example 4 is both octal and decimal,
 so it's  CM_DIL_CHAR | CM_DECIMAL | CM_OCTAL
 */
-// CM for 'C'haracter 'M'ap. This way we avoid namespaces.
+// CM for 'C'haracter 'M'ap
 enum CM_TYPE {
   CM_NO_PROPERTY = 0,
-  CM_DIL_CHAR = 1,        // character allowed in DIL
-  CM_BLANK = 1 << 2,      // space, new-line or tab
-  CM_IDENTIFIER = 1 << 3, // if could be in an ident
-  CM_OCTAL = 1 << 4,      // '0' to '7'
-  CM_DECIMAL = 1 << 5,    // '0' to '9'
-  CM_HEXADECIMAL = 1 << 6 // '0'-'9', 'a'-'f', 'A'-'F'
+  CM_BLANK = 1 << 1,      // space, new-line or tab
+  CM_IDENTIFIER = 1 << 2, // if could be in an ident
+  CM_OCTAL = 1 << 3,      // '0' to '7'
+  CM_DECIMAL = 1 << 4,    // '0' to '9'
+  CM_HEXADECIMAL = 1 << 5 // '0'-'9', 'a'-'f', 'A'-'F'
 };
 
 int ch_map[128] = {}; //     D E F I N I T I O N
@@ -45,12 +44,6 @@ void initialize_map() {
   // most first characters are non-printable
   for (int i = 0; i < 32; ++i)
     ch_map[i] = CM_NO_PROPERTY;
-  ch_map['\t'] = CM_DIL_CHAR;
-
-  // most characters after 32 are DIL characters
-  for (int i = 33; i < 127; ++i)
-    ch_map[i] = CM_DIL_CHAR;
-  ch_map['\n'] &= ~CM_DIL_CHAR; // this one isn't
 
   // characters allowed in identifiers
   for (int i = '0'; i <= '9'; ++i)
