@@ -12,62 +12,28 @@ The character-properties map array.
 ch_map[c] is the properties of the character c.
 The bits of ch_map[c] correspond to it's properties.
 
-ch_map[c] & CM_DIL_CHAR
-will be true if c is a DIL character (first bit ON).
-
-ch_map[c] == CM_DIL_CHAR
-will be true if only that (only first bit ON).
-
-ch_map[c] == CM_DIL_CHAR | CM_DECIMAL
-will be true if c is DIL and a decimal digit
-(only therse two bits). To check for a decimal prefer 
-
 ch_map[c] & CM_DECIMAL
-because for example 4 is both octal and decimal,
-so it's  CM_DIL_CHAR | CM_DECIMAL | CM_OCTAL
+will be true if c is a decimal digit.
+
+ch_map[c] == CM_DECIMAL
+will be true if the ONLY property of c is that it's
+decimal. Use the '==' with great caution!
+
+ch_map[c] & (CM_BLANK | CM_DECIMAL)
+will be true if c is either a blank character or a
+decimal digit.
 */
 // CM for 'C'haracter 'M'ap
 enum CM_TYPE {
   CM_NO_PROPERTY = 0,
-  CM_BLANK = 1 << 1,      // space, new-line or tab
-  CM_IDENTIFIER = 1 << 2, // if could be in an ident
-  CM_OCTAL = 1 << 3,      // '0' to '7'
-  CM_DECIMAL = 1 << 4,    // '0' to '9'
-  CM_HEXADECIMAL = 1 << 5 // '0'-'9', 'a'-'f', 'A'-'F'
+  CM_BLANK = 1,           // space, new-line or tab
+  CM_IDENTIFIER = 1 << 1, // if could be in an ident
+  CM_OCTAL = 1 << 2,      // '0' to '7'
+  CM_DECIMAL = 1 << 3,    // '0' to '9'
+  CM_HEXADECIMAL = 1 << 4 // '0'-'9', 'a'-'f', 'A'-'F'
 };
-
-int ch_map[128] = {}; //     D E F I N I T I O N
+static int ch_map[128] = {};
 
 // must be called early in runtime. Multiple calls are ok.
-void initialize_map() {
-
-  // most first characters are non-printable
-  for (int i = 0; i < 32; ++i)
-    ch_map[i] = CM_NO_PROPERTY;
-
-  // characters allowed in identifiers
-  for (int i = '0'; i <= '9'; ++i)
-    ch_map[i] |= CM_IDENTIFIER;
-
-  for (int i = 'a'; i <= 'z'; ++i) {
-    ch_map[i] |= CM_IDENTIFIER;
-    ch_map[toupper(i)] |= CM_IDENTIFIER;
-  }
-  ch_map['_'] |= CM_IDENTIFIER;
-
-  ch_map[' '] |= CM_BLANK;
-  ch_map['\n'] |= CM_BLANK;
-  ch_map['\t'] |= CM_BLANK;
-
-  // numericals
-  for (int i = '0'; i <= '7'; ++i)
-    ch_map[i] |= CM_OCTAL | CM_DECIMAL | CM_HEXADECIMAL;
-
-  for (int i = '8'; i <= '9'; ++i)
-    ch_map[i] |= CM_DECIMAL | CM_HEXADECIMAL;
-
-  for (int i = 'a'; i <= 'f'; ++i) {
-    ch_map[i] |= CM_HEXADECIMAL;
-    ch_map[toupper(i)] |= CM_HEXADECIMAL;
-  }
-};
+// should only be given ch_map
+void initialize_map(int *);
