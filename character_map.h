@@ -35,5 +35,4 @@ enum CM_TYPE {
 extern int ch_map[128];
 
 // must be called early in runtime. Multiple calls are ok.
-// should only be given ch_map
 void initialize_map();
