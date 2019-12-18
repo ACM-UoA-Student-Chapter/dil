@@ -32,8 +32,8 @@ enum CM_TYPE {
   CM_DECIMAL = 1 << 3,    // '0' to '9'
   CM_HEXADECIMAL = 1 << 4 // '0'-'9', 'a'-'f', 'A'-'F'
 };
-static int ch_map[128] = {};
+extern int ch_map[128];
 
 // must be called early in runtime. Multiple calls are ok.
 // should only be given ch_map
-void initialize_map(int *);
+void initialize_map();

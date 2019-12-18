@@ -5,7 +5,9 @@
  */
 #include "character_map.h"
 
-void initialize_map(int *ch_map) {
+int ch_map[128] = {};
+
+void initialize_map() {
 
   // characters allowed in identifiers
   for (int i = '0'; i <= '9'; ++i)

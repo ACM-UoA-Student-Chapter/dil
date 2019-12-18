@@ -9,24 +9,21 @@
 #include <cctype>
 using std::tolower;
 
-#include <iostream>
-using std::cout;
-using std::endl;
+#include <assert.h>
+ 
 
-int ch_map_problematic_character(int *ch_map) {
+
+void ch_map_tester() {
 
   // sacrificing speed for rigidity.
   for (char c = 0; c < 127; ++c) {
     char lc = tolower(c);
 
-    // if "'0' <= c <= '9'" conflicts "c being decimal"
-    if (('0' <= lc && lc <= '9') != (bool)(ch_map[c] & CM_DECIMAL))
-      return c;
-    if (('0' <= lc && lc <= '7') != (bool)(ch_map[c] & CM_OCTAL))
-      return c;
-    if (('a' <= lc && lc <= 'f' || '0' <= lc && lc <= '9') !=
-        (bool)(ch_map[c] & CM_HEXADECIMAL))
-      return c;
+    // "'0' <= c <= '9'" must be as true as "c being decimal"
+    assert(('0' <= lc && lc <= '9') == (bool)(ch_map[c] & CM_DECIMAL));
+    assert(('0' <= lc && lc <= '7') == (bool)(ch_map[c] & CM_OCTAL));
+    assert(('a' <= lc && lc <= 'f' || '0' <= lc && lc <= '9') ==
+           (bool)(ch_map[c] & CM_HEXADECIMAL));
 
     bool is_ident = false; // is c an identifier character?
     if ('0' <= lc && lc <= '9')
@@ -36,12 +33,10 @@ int ch_map_problematic_character(int *ch_map) {
     if (lc == '_')
       is_ident = true;
 
-    if (is_ident != (bool)(ch_map[c] & CM_IDENTIFIER))
-      return c;
+    assert(is_ident == (bool)(ch_map[c] & CM_IDENTIFIER));
 
     // blank characters
-    if ((c == ' ' || c == '\t' || c == '\n') != (bool)(ch_map[c] & CM_BLANK))
-      return c;
+    assert((c == ' ' || c == '\t' || c == '\n') ==
+           (bool)(ch_map[c] & CM_BLANK));
   }
-  return -1;
 }
