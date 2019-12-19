@@ -15,7 +15,6 @@ using std::tolower;
 
 void ch_map_tester() {
 
-  // sacrificing speed for rigidity.
   for (char c = 0; c < 127; ++c) {
     char lc = tolower(c);
 
