@@ -5,39 +5,12 @@
  */
 
 #include "identify_token.h"
+#include "character_map.h"
 #include "tokens.h"
 #include <cstdint>
 #include <ctype.h>
 
 Token token;
-
-uint8_t isIdChar[256];
-uint8_t isBlankChar[256];
-/*
-    The function intializes the isIdChar array. If a character c:
-    ---> CAN be part of an identifier, then isIdChar[c]=1
-    ---> CANNOT be part of an identifier, the isIdChar[c]=0
-*/
-void init_isIdChar() {
-  for (int c = 'A'; c <= 'Z'; c++) {
-    isIdChar[c] = 1;
-    isIdChar[tolower(c)] = 1;
-  }
-  for (int c = '0'; c <= '9'; c++)
-    isIdChar[c] = 1;
-  isIdChar['_'] = 1;
-}
-
-/*
-    The function intializes the isBlankChar array. If a character c:
-    ---> is newline, space or tab character, then isBlankChar[c]=1
-    ---> Otherwise, isBlankChar[c]=0
-*/
-void init_isBlankChar() {
-  isBlankChar[' '] = 1;
-  isBlankChar['\t'] = 1;
-  isBlankChar['\n'] = 1;
-}
 
 /*
 The function sets the kind member of the global variable token to the fist token
@@ -46,75 +19,79 @@ If a blank character, an integer literal, an identifier or a non-DIL string is
 encoutered, kind is set to UNDEFINED.
 */
 void identify_token(const char *input) {
-  while (isBlankChar[input[0]])
+  while (ch_map[input[0]] & CM_BLANK)
     input++;
   switch (input[0]) {
   case 'b':
     if (input[1] == 'o' && input[2] == 'o' && input[3] == 'l' &&
-        !isIdChar[input[4]]) {
+        !(ch_map[input[4]] & CM_IDENTIFIER)) {
       token.kind = TOK::BOOL;
       return;
     }
     break;
   case 'e':
     if (input[1] == 'l' && input[2] == 's' && input[3] == 'e' &&
-        !isIdChar[input[4]]) {
+        !(ch_map[input[4]] & CM_IDENTIFIER)) {
       token.kind = TOK::ELSE;
       return;
     }
     break;
   case 'f':
     if (input[1] == 'a' && input[2] == 'l' && input[3] == 's' &&
-        input[4] == 'e' && !isIdChar[input[5]]) {
+        input[4] == 'e' && !(ch_map[input[5]] & CM_IDENTIFIER)) {
       token.kind = TOK::FALSE;
       return;
     }
     if (input[1] == 'u' && input[2] == 'n' && input[3] == 'c' &&
-        !isIdChar[input[4]]) {
+        !(ch_map[input[4]] & CM_IDENTIFIER)) {
       token.kind = TOK::FUNC;
       return;
     }
     break;
   case 'i':
-    if (input[1] == 'f' && !isIdChar[input[2]]) {
+    if (input[1] == 'f' && !(ch_map[input[2]] & CM_IDENTIFIER)) {
       token.kind = TOK::IF;
       return;
     }
-    if (input[1] == 'n' && input[2] == 't' && !isIdChar[input[3]]) {
+    if (input[1] == 'n' && input[2] == 't' &&
+        !(ch_map[input[3]] & CM_IDENTIFIER)) {
       token.kind = TOK::INT;
       return;
     }
     break;
   case 'n':
-    if (input[1] == 'e' && input[2] == 'w' && !isIdChar[input[3]]) {
+    if (input[1] == 'e' && input[2] == 'w' &&
+        !(ch_map[input[3]] & CM_IDENTIFIER)) {
       token.kind = TOK::NEW;
       return;
     }
     break;
   case 'r':
     if (input[1] == 'e' && input[2] == 't' && input[3] == 'u' &&
-        input[4] == 'r' && input[5] == 'n' && !isIdChar[input[6]]) {
+        input[4] == 'r' && input[5] == 'n' &&
+        !(ch_map[input[6]] & CM_IDENTIFIER)) {
       token.kind = TOK::RETURN;
       return;
     }
     break;
   case 's':
     if (input[1] == 't' && input[2] == 'r' && input[3] == 'u' &&
-        input[4] == 'c' && input[5] == 't' && !isIdChar[input[6]]) {
+        input[4] == 'c' && input[5] == 't' &&
+        !(ch_map[input[6]] & CM_IDENTIFIER)) {
       token.kind = TOK::STRUCT;
       return;
     }
     break;
   case 't':
     if (input[1] == 'r' && input[2] == 'u' && input[3] == 'e' &&
-        !isIdChar[input[4]]) {
+        !(ch_map[input[4]] & CM_IDENTIFIER)) {
       token.kind = TOK::TRUE;
       return;
     }
     break;
   case 'w':
     if (input[1] == 'h' && input[2] == 'i' && input[3] == 'l' &&
-        input[4] == 'e' && !isIdChar[input[5]]) {
+        input[4] == 'e' && !(ch_map[input[5]] & CM_IDENTIFIER)) {
       token.kind = TOK::WHILE;
       return;
     }

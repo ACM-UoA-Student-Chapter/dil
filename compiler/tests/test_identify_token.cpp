@@ -4,6 +4,7 @@
  * Authors:   nsoul97 (Soulounias Nikolaos)
  */
 
+#include "../character_map.h"
 #include "../identify_token.h"
 #include "../tokens.h"
 #include <cassert>
@@ -27,8 +28,7 @@ This function is used for testing various input strings as arguments of the
 identify_token function.
 */
 int main(void) {
-  init_isIdChar();
-  init_isBlankChar();
+  initialize_map();
 
   TEST("", TOK::EOI);
   TEST("int i;", TOK::INT);
