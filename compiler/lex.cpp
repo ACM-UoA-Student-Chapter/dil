@@ -4,13 +4,38 @@
  * Authors:   nsoul97 (Soulounias Nikolaos)
  */
 
-#include "identify_token.h"
-#include "character_map.h"
+#include "lex.h"
 #include "tokens.h"
 #include <cstdint>
 #include <ctype.h>
 
 Token token;
+
+/*
+The character-properties map array.
+ch_map[c] is the properties of the character c.
+The bits of ch_map[c] correspond to it's properties.
+
+ch_map[c] & CM_DECIMAL
+will be true if c is a decimal digit.
+
+ch_map[c] == CM_DECIMAL
+will be true if the ONLY property of c is that it's
+decimal. Use the '==' with great caution!
+
+ch_map[c] & (CM_BLANK | CM_DECIMAL)
+will be true if c is either a blank character or a
+decimal digit.
+*/
+enum CM_TYPE {
+  CM_NO_PROPERTY = 0,
+  CM_BLANK = 1,           // space, new-line or tab
+  CM_IDENTIFIER = 1 << 1, // if could be in an ident
+  CM_OCTAL = 1 << 2,      // '0' to '7'
+  CM_DECIMAL = 1 << 3,    // '0' to '9'
+  CM_HEXADECIMAL = 1 << 4 // '0'-'9', 'a'-'f', 'A'-'F'
+};
+static int ch_map[128] = {};
 
 /*
 The function sets the kind member of the global variable token to the fist token
@@ -187,3 +212,31 @@ void identify_token(const char *input) {
   }
   token.kind = TOK::UNDEFINED;
 }
+
+void initialize_lexer() {
+  // characters allowed in identifiers
+  for (int i = '0'; i <= '9'; ++i)
+    ch_map[i] |= CM_IDENTIFIER;
+
+  for (int i = 'a'; i <= 'z'; ++i) {
+    ch_map[i] |= CM_IDENTIFIER;
+    ch_map[toupper(i)] |= CM_IDENTIFIER;
+  }
+  ch_map['_'] |= CM_IDENTIFIER;
+
+  ch_map[' '] |= CM_BLANK;
+  ch_map['\n'] |= CM_BLANK;
+  ch_map['\t'] |= CM_BLANK;
+
+  // numericals
+  for (int i = '0'; i <= '7'; ++i)
+    ch_map[i] |= CM_OCTAL | CM_DECIMAL | CM_HEXADECIMAL;
+
+  for (int i = '8'; i <= '9'; ++i)
+    ch_map[i] |= CM_DECIMAL | CM_HEXADECIMAL;
+
+  for (int i = 'a'; i <= 'f'; ++i) {
+    ch_map[i] |= CM_HEXADECIMAL;
+    ch_map[toupper(i)] |= CM_HEXADECIMAL;
+  }
+};

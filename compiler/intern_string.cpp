@@ -4,7 +4,7 @@
 * Authors:   J1635 (Orestis Giannoukos)
 */
 
-#include <string>
+#include <cstring>
 #include <vector>
 #include <assert.h>
 

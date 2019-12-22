@@ -14,5 +14,6 @@ struct Token {
 };
 
 void identify_token(const char *input);
+void initialize_lexer();
 
 #endif
