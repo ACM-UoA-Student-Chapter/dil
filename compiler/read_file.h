@@ -6,6 +6,8 @@
 #ifndef READ_FILE_H
 #define READ_FILE_H
 
-const char *read_file_into_memory(const char *filepath);
+#include <string>
+
+std::string read_file_into_memory(const char *filepath);
 
 #endif

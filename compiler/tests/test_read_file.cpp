@@ -4,29 +4,27 @@
 * Authors:   ssiatras (Stathis Siatras)
 */
 #include "read_file.h"
-#include <cstdio>
 #include <cstring>
 #include <cassert>
+#include <fstream>
 
 int main(void) {
-  assert(read_file_into_memory(NULL) == NULL);
+  assert(read_file_into_memory(NULL).length() == 0);
 
   const char *test_filepath = "./test_file.txt";
-  FILE *ftest = fopen(test_filepath, "w");
-  if (ftest == NULL) {
+  std::ofstream ftest(test_filepath);
+  if (!ftest) {
     return -1;
   }
 
   const char *test_string = "Testing\n\nread_file_into_memory\n\nfunction";
-  fwrite(test_string, strlen(test_string), 1, ftest);
-  if (fclose(ftest) == EOF) {
-    return -1;
-  }
+  ftest << test_string;
+  ftest.close();
 
-  const char *output_string = read_file_into_memory(test_filepath);
-  assert(strcmp(output_string, test_string) == 0);
+  std::string output_str = read_file_into_memory(test_filepath);
+  const char *output_c_str = output_str.c_str();
+  assert(strcmp(output_c_str, test_string) == 0);
 
-  delete[] output_string;
   if (remove(test_filepath) != 0) {
     return -2;
   }

@@ -6,7 +6,6 @@
 #include "read_file.h"
 #include <fstream>
 #include <sstream>
-#include <string>
 
 /*
  * This function reads the content of a text file as a whole into memory as a
@@ -15,27 +14,21 @@
  * Params:
  *    filepath = The path of the file to be read.
  * Returns:
- *    A pointer to an array of characters (the content of the file).
+ *    A C++ string object (the content of the file).
  */
-const char *read_file_into_memory(const char *filepath) {
+std::string read_file_into_memory(const char *filepath) {
   if (filepath == NULL) {
-    return NULL;
+    return std::string();
   }
 
-  std::ifstream finput(filename, std::ios::in | std::ios::binary);
+  std::ifstream finput(filepath, std::ios::in | std::ios::binary);
   if (!finput) {
-  	return NULL;
+  	return std::string();
   }
 
   std::ostringstream contents;
   contents << finput.rdbuf();
   finput.close();
 
-  std::string str = contents.str();
-  long int fsize = str.size();
-
-  char *cstr = new char[fsize + 1];
-  strcpy(cstr, str.c_str());
-
-  return cstr;
+  return contents.str();
 }
