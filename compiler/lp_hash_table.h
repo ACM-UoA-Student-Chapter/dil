@@ -1,8 +1,8 @@
 /*
-* Copyright: Copyright Spyros Trifonidis (@spytfyre) 2019.
-* License:   $(LINK2 http://www.boost.org/LICENSE_1_0.txt, Boost License 1.0)
-* Authors:   Spyros Trifonidis (@spytfyre)
-*/
+ * Copyright: Copyright Spyros Trifonidis (@spytfyre) 2019.
+ * License:   $(LINK2 http://www.boost.org/LICENSE_1_0.txt, Boost License 1.0)
+ * Authors:   Spyros Trifonidis (@spytfyre)
+ */
 #ifndef DIL_LP_HASH_TABLE_H
 #define DIL_LP_HASH_TABLE_H
 
@@ -14,7 +14,8 @@
 
 /*
  * LpHashTable is a map of key-value pairs where keys are `const char *`
- * and values are of any type. The supported operations are insertion and search.
+ * and values are of any type. The supported operations are insertion and
+ * search.
  *
  * NOTE: The number of the emelements to be stored is constant and provided in
  * the map's construction
@@ -30,19 +31,19 @@
  * Search: O(1) amortized.
  */
 template <typename T> struct LpHashTable {
-/*
- * The map is implemented as a linear probing hash table. There are 2 parallel
- * arrays, one for keys and one for values. The keys are hashed by their pointer
- * and are inserted into the table at the first empty spot. If the hashed spot
- * is empty, we insert the key there and the value in its parallel spot.
- * Otherwise, we search linearly for the next empty key spot (i.e. linear probe)
- * and do the same thing. Find is implemented in a similar fashion. Delete is
- * not implemented as we have no need for it. Notes:
- *  - The load factor is a constant 70% (the number of elements in the table is
- * constant).
- *  - The values must be pointers. This constraint is imposed in order to save
- * space, as some of it is wasted to keep a load factor of 70%.
- */
+  /*
+   * The map is implemented as a linear probing hash table. There are 2 parallel
+   * arrays, one for keys and one for values. The keys are hashed by their
+   * pointer and are inserted into the table at the first empty spot. If the
+   * hashed spot is empty, we insert the key there and the value in its parallel
+   * spot. Otherwise, we search linearly for the next empty key spot (i.e.
+   * linear probe) and do the same thing. Find is implemented in a similar
+   * fashion. Delete is not implemented as we have no need for it. Notes:
+   *  - The load factor is a constant 70% (the number of elements in the table
+   * is constant).
+   *  - The values must be pointers. This constraint is imposed in order to save
+   * space, as some of it is wasted to keep a load factor of 70%.
+   */
   static const bool is_pointer = std::is_pointer<T>::value;
   static const bool is_function_pointer =
       is_pointer

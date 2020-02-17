@@ -1,12 +1,12 @@
 /*
-* Copyright: Copyright J1635 (Orestis Giannoukos) 2019.
-* License:   $(LINK2 http://www.boost.org/LICENSE_1_0.txt, Boost License 1.0)
-* Authors:   J1635 (Orestis Giannoukos)
-*/
+ * Copyright: Copyright J1635 (Orestis Giannoukos) 2019.
+ * License:   $(LINK2 http://www.boost.org/LICENSE_1_0.txt, Boost License 1.0)
+ * Authors:   J1635 (Orestis Giannoukos)
+ */
 
+#include <assert.h>
 #include <cstring>
 #include <vector>
-#include <assert.h>
 
 struct InternedStr {
   char *str;
@@ -16,17 +16,16 @@ struct InternedStr {
 std::vector<InternedStr> old_strings;
 
 /*
- * This function ensures that only one copy of every string is kept in memory. We pass it a string to
- * be saved. If the string is already saved, we return the old pointer.
- * Otherwise, we save it and return the new pointer. This is called interning a
- * string.
- * Params:
- *    string = The string to be interned.
+ * This function ensures that only one copy of every string is kept in memory.
+ * We pass it a string to be saved. If the string is already saved, we return
+ * the old pointer. Otherwise, we save it and return the new pointer. This is
+ * called interning a string. Params: string = The string to be interned.
  * Returns:
  *    A read-only pointer to a copy of `string`.
  */
 const char *intern_string(const char *string) {
-  if (string == NULL) return NULL;
+  if (string == NULL)
+    return NULL;
 
   size_t len = strlen(string) + 1;
 

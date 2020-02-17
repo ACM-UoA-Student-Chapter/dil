@@ -1,8 +1,8 @@
 /*
-* Copyright: Copyright ssiatras (Stathis Siatras) 2019.
-* License:   $(LINK2 http://www.boost.org/LICENSE_1_0.txt, Boost License 1.0)
-* Authors:   ssiatras (Stathis Siatras)
-*/
+ * Copyright: Copyright ssiatras (Stathis Siatras) 2019.
+ * License:   $(LINK2 http://www.boost.org/LICENSE_1_0.txt, Boost License 1.0)
+ * Authors:   ssiatras (Stathis Siatras)
+ */
 #include "read_file.h"
 #include <fstream>
 #include <sstream>
@@ -23,7 +23,7 @@ std::string read_file_into_memory(const char *filepath) {
 
   std::ifstream finput(filepath, std::ios::in | std::ios::binary);
   if (!finput) {
-  	return std::string();
+    return std::string();
   }
 
   std::ostringstream contents;
