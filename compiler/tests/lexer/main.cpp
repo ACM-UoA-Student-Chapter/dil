@@ -4,8 +4,8 @@
  * Authors:   nsoul97 (Soulounias Nikolaos)
  */
 
-#include "../../tokens.h"
 #include "../../lex.h"
+#include "../../tokens.h"
 #include <cassert>
 #include <cstdio>
 
@@ -16,10 +16,19 @@ If the global variable token doesn't have its kind member set to the
 expected_enum, the macto TEST function stops the program execution stops due to
 the assertion.
 */
-#define TEST(input_string, expected_enum)                                      \
+#define TEST(input_string, expected_kind)                                      \
   {                                                                            \
+    initialize_lexer(input_string);                                            \
     identify_token(input_string);                                              \
-    assert(token.kind == expected_enum);                                       \
+    assert(token.kind == expected_kind);                                       \
+  }
+
+#define TEST_INT(input_string, expected_val)                                   \
+  {                                                                            \
+    initialize_lexer(input_string);                                            \
+    identify_token(input_string);                                              \
+    assert(token.kind == TOK::INT_LIT);                                        \
+    assert(token.val == expected_val);                                         \
   }
 
 /*
@@ -27,7 +36,26 @@ This function is used for testing various input strings as arguments of the
 identify_token function.
 */
 int main(void) {
-  initialize_lexer();
+  TEST_INT("123", 123);
+  TEST_INT("0", 0);
+  TEST_INT("0x0", 0);
+  TEST_INT("0x234", 0x234);
+  TEST_INT("0X234", 0X234);
+  TEST_INT("0XADF", 0XADF);
+  TEST_INT("0234", 0234);
+  TEST_INT("2147483647", 2147483647);
+  TEST_INT("0x7fffffff", 0x7fffffff);
+  // Overflow error
+  TEST_INT("0xffffffff", 0);
+  TEST_INT("22384623846", 0);
+  // Out of base
+  TEST_INT("12a", 0);
+  TEST_INT("0182", 0);
+  // Invalid hex literal
+  TEST_INT("0x", 0);
+  TEST_INT("0xg", 0);
+  // Invalid octal literal
+  TEST_INT("0a", 0);
 
   TEST("", TOK::EOI);
   TEST("int i;", TOK::INT);
@@ -42,7 +70,6 @@ int main(void) {
   TEST("false || true", TOK::FALSE);
   TEST("true||false", TOK::TRUE);
 
-  TEST("01210 + 100", TOK::UNDEFINED);
   TEST("var_name", TOK::UNDEFINED);
   TEST("intvar", TOK::UNDEFINED);
   TEST("function", TOK::UNDEFINED);

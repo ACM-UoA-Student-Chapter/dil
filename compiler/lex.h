@@ -11,9 +11,10 @@
 
 struct Token {
   TOK kind;
+  int val;
 };
 
 void identify_token(const char *input);
-void initialize_lexer();
+void initialize_lexer(const char *input);
 
 #endif

@@ -1,1 +1,1 @@
-g++ main.cpp ../../lex.cpp -o main
+g++ main.cpp ../../lex.cpp ../../tokens.cpp -o main
